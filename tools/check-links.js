@@ -14,6 +14,7 @@ const ROOT = 'https://midasyoo.github.io';
 /* 이 계정에서 운영 중인 프로젝트 페이지 — 새 프로젝트를 만들면 여기에 추가한다. */
 const PROJECTS = [
   'etri-3d-map',
+  'office-light-3d',
   'baseball-pitch-trainer',
   'stakka',
   'stakka2',

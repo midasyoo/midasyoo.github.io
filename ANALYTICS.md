@@ -90,6 +90,7 @@
 | 저장소 | 넣을 파일 | 상태 |
 |---|---|---|
 | `etri-3d-map` | `index.html`, `mobile.html` | ✅ 적용 (빌드 스크립트가 자동 주입) |
+| `office-light-3d` | `index.html` | ✅ 적용 (빌드 스크립트가 자동 주입) |
 | `baseball-pitch-trainer` | `index.html`, `index_pc.html` | ✅ 적용 |
 | `stakka`, `stakka2`, `stakka3` | `index.html` | ✅ 적용 |
 | `paper-magazine` | 레이아웃 파일 (Astro는 `src/layouts/` 아래) | 미적용 |
