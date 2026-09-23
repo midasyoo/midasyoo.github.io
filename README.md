@@ -7,12 +7,17 @@
 ## 구성
 
 ```
-index.html        전체 페이지 (스타일·스크립트 인라인)
-404.html          없는 주소로 들어왔을 때
+index.html          전체 페이지 (스타일·스크립트 인라인)
+privacy.html        수집 정보 안내
+404.html            없는 주소로 들어왔을 때
 assets/
-  avatar.svg      프로필 마크
-  favicon.svg     탭 아이콘
-.nojekyll         GitHub Pages의 Jekyll 처리 비활성화
+  avatar.svg        프로필 마크
+  favicon.svg       탭 아이콘
+  analytics.js      방문 집계 — 프로젝트 페이지도 이 파일 하나를 공유한다
+tools/
+  check-links.js    프로젝트 페이지 생존 점검
+ANALYTICS.md        방문 통계 설정 안내
+.nojekyll           GitHub Pages의 Jekyll 처리 비활성화
 ```
 
 빌드 도구·패키지 매니저·외부 CDN을 쓰지 않는다. 파일을 그대로 올리면 그게 곧 배포본이다.
@@ -78,14 +83,45 @@ assets/
 
 ## 배포
 
-`master` 브랜치에 푸시하면 GitHub Pages가 자동으로 반영한다(보통 1분 이내).
+> **게시 브랜치는 `gh-pages` 다.** `master`가 아니다.
+> 이 저장소는 2021년에 beautiful-jekyll을 fork하면서 Pages 소스가 `gh-pages`로 잡혔다.
+> `master`에만 푸시하면 사이트는 바뀌지 않는다.
 
 ```bash
-git add -A && git commit -m "..." && git push
+git add -A && git commit -m "..." && git push origin gh-pages
 ```
 
+푸시하면 `pages build and deployment` 워크플로가 돌고, 보통 1분 안에 반영된다.
+진행 상황은 저장소의 Actions 탭에서 볼 수 있다.
+
+두 브랜치를 맞춰 두고 싶으면:
+
+```bash
+git push origin gh-pages:master
+```
+
+`master`를 게시 브랜치로 바꾸려면 Settings → Pages → Branch 에서 `master`를 고른다.
+바꾼 뒤에는 위 명령의 브랜치 이름도 바꿔야 한다.
+
+## 방문 통계
+
+기본은 꺼져 있다. 켜는 방법은 [ANALYTICS.md](ANALYTICS.md) 참고.
+`assets/analytics.js` 의 `CODE` 한 줄만 채우면 홈페이지와 프로젝트 페이지 전부에 적용된다.
+
 ## 확인 사항
+
+배포 전에 확인한다.
+
+```bash
+node tools/check-links.js     # 홈 + 프로젝트 페이지 8경로 생존 확인
+```
 
 - 밝은 화면 / 어두운 화면 양쪽
 - 좁은 화면(360px)에서 가로 스크롤이 생기지 않는지
 - 언어 전환 후 빈 자리가 없는지
+
+## 프로젝트 페이지와의 관계
+
+`/stakka/`, `/etri-3d-map/` 같은 경로는 **각각 별도 저장소**의 GitHub Pages가 서비스한다.
+이 저장소를 어떻게 바꾸든 영향을 주지 않는다.
+다만 이 저장소에 같은 이름의 폴더를 만들면 가려지므로, 프로젝트명과 겹치는 폴더는 만들지 않는다.

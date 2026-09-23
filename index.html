@@ -632,12 +632,19 @@ footer {
   <div class="wrap foot">
     <span>© <span id="yr">2026</span> Yoon-Sik Yoo</span>
     <span>
-      <span class="ko">이 사이트는 의존성 없이 정적 파일로만 만들어졌습니다.</span>
-      <span class="en">Built as plain static files, with no dependencies.</span>
-      · <a href="https://github.com/midasyoo/midasyoo.github.io" target="_blank" rel="noopener">source</a>
+      <span data-visits-box hidden>
+        <span class="ko">방문</span><span class="en">Visits</span>
+        <b data-visits="*" class="mono" style="color:var(--muted)">–</b> ·
+      </span>
+      <a href="privacy.html">
+        <span class="ko">수집 정보</span><span class="en">Privacy</span>
+      </a> ·
+      <a href="https://github.com/midasyoo/midasyoo.github.io" target="_blank" rel="noopener">source</a>
     </span>
   </div>
 </footer>
+
+<script src="assets/analytics.js" defer></script>
 
 <script>
 (function () {

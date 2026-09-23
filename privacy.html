@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="ko" data-lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>수집 정보 · Yoon-Sik Yoo</title>
+<meta name="description" content="이 사이트가 방문자에 대해 무엇을 수집하고 무엇을 수집하지 않는지.">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<meta name="robots" content="noindex">
+<style>
+  :root {
+    --bg:#fbfcfd; --card:#fff; --line:#e2e8f0; --line-soft:#eef2f6;
+    --text:#1a2433; --muted:#5c6b7f; --faint:#8695a8; --accent:#2563c9; --accent-sf:#eaf1fd;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg:#0d1117; --card:#161d27; --line:#26303d; --line-soft:#1d2530;
+      --text:#e4ebf3; --muted:#96a5b8; --faint:#6e7d91; --accent:#6ea8fe; --accent-sf:#16263f;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--bg); color: var(--text);
+    font-family: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont,
+                 "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", system-ui, sans-serif;
+    line-height: 1.75; font-size: 16px; letter-spacing: -.005em;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap { max-width: 720px; margin: 0 auto; padding: 0 24px; }
+  a { color: var(--accent); }
+  h1 { font-size: 28px; font-weight: 740; letter-spacing: -.02em; margin: 0 0 8px; }
+  h2 { font-size: 18px; font-weight: 680; margin: 38px 0 12px; letter-spacing: -.015em; }
+  .lede { color: var(--muted); margin: 0 0 4px; }
+  header { border-bottom: 1px solid var(--line-soft); padding: 14px 0; }
+  header a { font-weight: 640; font-size: 15px; text-decoration: none; color: var(--text); }
+  main { padding: 46px 0 70px; }
+  table { width: 100%; border-collapse: collapse; margin: 6px 0 0; font-size: 14.8px; }
+  th, td { text-align: left; padding: 11px 12px; border-bottom: 1px solid var(--line-soft); vertical-align: top; }
+  th { color: var(--faint); font-size: 13px; font-weight: 650; }
+  td:first-child { white-space: nowrap; font-weight: 580; width: 1%; }
+  .yes { color: var(--accent); font-weight: 650; }
+  .no  { color: var(--faint); }
+  ul { padding-left: 20px; color: var(--muted); }
+  li { margin: 5px 0; }
+  .box {
+    background: var(--card); border: 1px solid var(--line);
+    border-left: 3px solid var(--accent); border-radius: 0 10px 10px 0;
+    padding: 16px 18px; color: var(--muted); font-size: 15px; margin: 22px 0;
+  }
+  .box strong { color: var(--text); }
+  footer { border-top: 1px solid var(--line-soft); padding: 22px 0 40px; color: var(--faint); font-size: 13.5px; }
+  :root[data-lang="ko"] .en { display: none; }
+  :root[data-lang="en"] .ko { display: none; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap"><a href="/">← <span class="ko">홈으로</span><span class="en">Home</span></a></div>
+</header>
+
+<main class="wrap">
+  <h1><span class="ko">수집 정보</span><span class="en">What this site collects</span></h1>
+  <p class="lede">
+    <span class="ko">이 사이트와 그 아래 프로젝트 페이지가 방문자에 대해 무엇을 알고, 무엇을 모르는지 적어 둡니다.</span>
+    <span class="en">What this site and its project pages know about a visitor — and what they do not.</span>
+  </p>
+
+  <div class="box">
+    <span class="ko"><strong>개인을 식별하지 않습니다.</strong>
+      로그인도, 쿠키도, 광고 추적기도 쓰지 않습니다. 누가 방문했는지는 알 수 없고,
+      알려고 하지도 않습니다. 남는 것은 “어떤 페이지가 며칠에 몇 번 열렸는가” 수준의 집계뿐입니다.</span>
+    <span class="en"><strong>No one is identified.</strong>
+      There is no login, no cookie, and no advertising tracker. I cannot tell who visited,
+      and I do not try to. What remains is an aggregate: which page was opened, how often, on what day.</span>
+  </div>
+
+  <h2><span class="ko">수집하는 것</span><span class="en">Collected</span></h2>
+  <table>
+    <tr><th><span class="ko">항목</span><span class="en">Item</span></th>
+        <th><span class="ko">내용</span><span class="en">Detail</span></th></tr>
+    <tr><td><span class="ko">페이지</span><span class="en">Page</span></td>
+        <td><span class="ko">열린 주소 경로 (예: <code>/stakka/</code>)</span>
+            <span class="en">The path that was opened (e.g. <code>/stakka/</code>)</span></td></tr>
+    <tr><td><span class="ko">시각</span><span class="en">Time</span></td>
+        <td><span class="ko">방문 날짜와 시각</span><span class="en">Date and time of the visit</span></td></tr>
+    <tr><td><span class="ko">유입 경로</span><span class="en">Referrer</span></td>
+        <td><span class="ko">어디를 거쳐 들어왔는지 (검색·링크·직접 입력)</span>
+            <span class="en">Where the visit came from (search, a link, or direct)</span></td></tr>
+    <tr><td><span class="ko">국가</span><span class="en">Country</span></td>
+        <td><span class="ko">IP로 추정한 국가 단위. IP 자체는 저장하지 않습니다</span>
+            <span class="en">Country inferred from IP. The IP itself is not stored</span></td></tr>
+    <tr><td><span class="ko">기기</span><span class="en">Device</span></td>
+        <td><span class="ko">브라우저·운영체제 종류, 화면 크기 구간</span>
+            <span class="en">Browser and OS family, screen size bucket</span></td></tr>
+  </table>
+
+  <h2><span class="ko">수집하지 않는 것</span><span class="en">Not collected</span></h2>
+  <ul>
+    <li><span class="ko">이름·이메일·계정 등 신원 정보</span><span class="en">Name, email, or any account identity</span></li>
+    <li><span class="ko">IP 주소 (국가 판별에만 쓰이고 저장되지 않음)</span>
+        <span class="en">IP address — used only to infer country, never stored</span></li>
+    <li><span class="ko">쿠키·로컬 저장소를 이용한 방문자 식별</span>
+        <span class="en">Any cookie or local-storage identifier</span></li>
+    <li><span class="ko">사이트를 떠난 뒤의 행동</span><span class="en">Anything you do after leaving this site</span></li>
+  </ul>
+
+  <h2><span class="ko">수집을 원하지 않는다면</span><span class="en">Opting out</span></h2>
+  <p style="color:var(--muted)">
+    <span class="ko">브라우저의 <b>Do Not Track</b> 또는 <b>Global Privacy Control</b> 설정이 켜져 있으면
+      집계 요청 자체를 보내지 않습니다. 광고 차단기를 쓰는 경우에도 마찬가지이며,
+      어느 쪽이든 페이지 기능은 그대로 동작합니다.</span>
+    <span class="en">If your browser sends <b>Do Not Track</b> or <b>Global Privacy Control</b>,
+      no request is sent at all. The same applies if you use a content blocker.
+      Either way, everything on the page keeps working.</span>
+  </p>
+
+  <h2><span class="ko">쓰는 도구</span><span class="en">Tool used</span></h2>
+  <p style="color:var(--muted)">
+    <span class="ko"><a href="https://www.goatcounter.com/" target="_blank" rel="noopener">GoatCounter</a> —
+      쿠키를 쓰지 않고 개인을 추적하지 않는 오픈소스 집계 도구입니다.</span>
+    <span class="en"><a href="https://www.goatcounter.com/" target="_blank" rel="noopener">GoatCounter</a> —
+      an open-source analytics tool that uses no cookies and does not track individuals.</span>
+  </p>
+
+  <p style="color:var(--muted);font-size:14.5px;margin-top:30px">
+    <span class="ko">문의: <a href="mailto:midasyoo@etri.re.kr">midasyoo@etri.re.kr</a></span>
+    <span class="en">Questions: <a href="mailto:midasyoo@etri.re.kr">midasyoo@etri.re.kr</a></span>
+  </p>
+</main>
+
+<footer class="wrap">© <span id="yr">2026</span> Yoon-Sik Yoo</footer>
+
+<script>
+(function () {
+  try {
+    var L = localStorage.getItem('lang');
+    if (L === 'ko' || L === 'en') {
+      document.documentElement.setAttribute('data-lang', L);
+      document.documentElement.setAttribute('lang', L);
+    }
+  } catch (e) {}
+  document.getElementById('yr').textContent = new Date().getFullYear();
+})();
+</script>
+
+</body>
+</html>
