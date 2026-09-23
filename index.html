@@ -1,5 +1,680 @@
----
-layout: home
-title: My website
-subtitle: This is where I will tell my friends way too much about me
----
+<!DOCTYPE html>
+<html lang="ko" data-lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Yoon-Sik Yoo · 유윤식</title>
+<meta name="description" content="ETRI 책임연구원. 스마트그리드·에너지 최적화 연구와 의존성 없는 웹 3D·시뮬레이션 개발 기록.">
+<meta name="author" content="Yoon-Sik Yoo">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="canonical" href="https://midasyoo.github.io/">
+
+<meta property="og:type" content="profile">
+<meta property="og:title" content="Yoon-Sik Yoo · 유윤식">
+<meta property="og:description" content="ETRI 책임연구원. 스마트그리드·에너지 최적화 연구와 의존성 없는 웹 개발 기록.">
+<meta property="og:url" content="https://midasyoo.github.io/">
+<meta name="twitter:card" content="summary">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "Yoon-Sik Yoo",
+  "alternateName": "유윤식",
+  "jobTitle": "Principal Researcher",
+  "worksFor": { "@type": "Organization", "name": "Electronics and Telecommunications Research Institute (ETRI)" },
+  "alumniOf": { "@type": "CollegeOrUniversity", "name": "KAIST" },
+  "email": "mailto:midasyoo@etri.re.kr",
+  "url": "https://midasyoo.github.io/",
+  "sameAs": [
+    "https://github.com/midasyoo",
+    "https://scholar.google.com/citations?user=JoeNb9AAAAAJ",
+    "https://sites.google.com/view/yoon-sik-yoo"
+  ]
+}
+</script>
+
+<style>
+/* ── 토큰 ─────────────────────────────────────────────── */
+:root {
+  --bg:        #fbfcfd;
+  --bg-soft:   #f2f5f8;
+  --card:      #ffffff;
+  --line:      #e2e8f0;
+  --line-soft: #eef2f6;
+  --text:      #1a2433;
+  --muted:     #5c6b7f;
+  --faint:     #8695a8;
+  --accent:    #2563c9;
+  --accent-sf: #eaf1fd;
+  --shadow:    0 1px 2px rgba(16,32,56,.05), 0 8px 24px -12px rgba(16,32,56,.16);
+  --radius:    14px;
+  --maxw:      1080px;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg:        #0d1117;
+    --bg-soft:   #131a23;
+    --card:      #161d27;
+    --line:      #26303d;
+    --line-soft: #1d2530;
+    --text:      #e4ebf3;
+    --muted:     #96a5b8;
+    --faint:     #6e7d91;
+    --accent:    #6ea8fe;
+    --accent-sf: #16263f;
+    --shadow:    0 1px 2px rgba(0,0,0,.3), 0 10px 28px -14px rgba(0,0,0,.7);
+  }
+}
+:root[data-theme="dark"] {
+  --bg:#0d1117; --bg-soft:#131a23; --card:#161d27; --line:#26303d; --line-soft:#1d2530;
+  --text:#e4ebf3; --muted:#96a5b8; --faint:#6e7d91; --accent:#6ea8fe; --accent-sf:#16263f;
+  --shadow: 0 1px 2px rgba(0,0,0,.3), 0 10px 28px -14px rgba(0,0,0,.7);
+}
+
+/* ── 기본 ─────────────────────────────────────────────── */
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; scroll-padding-top: 76px; -webkit-text-size-adjust: 100%; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } * { transition: none !important; } }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont,
+               "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", system-ui, sans-serif;
+  font-size: 16px;
+  line-height: 1.7;
+  letter-spacing: -.005em;
+  -webkit-font-smoothing: antialiased;
+}
+a { color: var(--accent); text-decoration: none; }
+a:hover { text-decoration: underline; text-underline-offset: 3px; }
+h1, h2, h3 { line-height: 1.3; letter-spacing: -.02em; margin: 0; }
+code, .mono {
+  font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+  font-size: .88em;
+}
+
+.wrap { max-width: var(--maxw); margin: 0 auto; padding: 0 24px; }
+
+/* ── 언어 전환 ────────────────────────────────────────── */
+:root[data-lang="ko"] .en { display: none; }
+:root[data-lang="en"] .ko { display: none; }
+
+/* ── 상단바 ───────────────────────────────────────────── */
+header {
+  position: sticky; top: 0; z-index: 50;
+  background: color-mix(in srgb, var(--bg) 82%, transparent);
+  backdrop-filter: saturate(180%) blur(14px);
+  -webkit-backdrop-filter: saturate(180%) blur(14px);
+  border-bottom: 1px solid var(--line-soft);
+}
+@supports not (backdrop-filter: blur(1px)) { header { background: var(--bg); } }
+.nav { display: flex; align-items: center; gap: 8px; height: 60px; }
+.brand {
+  font-weight: 680; font-size: 15.5px; color: var(--text);
+  margin-right: auto; display: flex; align-items: center; gap: 9px;
+}
+.brand:hover { text-decoration: none; }
+.brand .dot { width: 9px; height: 9px; border-radius: 50%; background: var(--accent); flex: none; }
+.nav a.item {
+  color: var(--muted); font-size: 14.5px; font-weight: 500;
+  padding: 7px 11px; border-radius: 8px;
+}
+.nav a.item:hover { color: var(--text); background: var(--bg-soft); text-decoration: none; }
+.tog {
+  border: 1px solid var(--line); background: var(--card); color: var(--muted);
+  border-radius: 8px; height: 32px; min-width: 32px; padding: 0 9px;
+  font: inherit; font-size: 12.5px; font-weight: 600; cursor: pointer;
+  display: inline-flex; align-items: center; justify-content: center;
+}
+.tog:hover { color: var(--text); border-color: var(--accent); }
+@media (max-width: 720px) { .nav a.item { display: none; } }
+
+/* ── 히어로 ───────────────────────────────────────────── */
+.hero { padding: 68px 0 52px; }
+.hero-grid { display: grid; grid-template-columns: 1fr auto; gap: 40px; align-items: start; }
+@media (max-width: 720px) { .hero-grid { grid-template-columns: 1fr; gap: 26px; } }
+
+.eyebrow {
+  display: inline-flex; align-items: center; gap: 7px;
+  font-size: 12.5px; font-weight: 650; letter-spacing: .04em; text-transform: uppercase;
+  color: var(--accent); background: var(--accent-sf);
+  padding: 5px 11px; border-radius: 999px; margin-bottom: 18px;
+}
+.hero h1 { font-size: clamp(32px, 5.2vw, 46px); font-weight: 750; }
+.hero .sub { font-size: clamp(16px, 2.2vw, 18px); color: var(--muted); margin-top: 10px; font-weight: 500; }
+.hero .lede { margin-top: 20px; max-width: 58ch; color: var(--muted); font-size: 16.5px; }
+.hero .lede strong { color: var(--text); font-weight: 620; }
+
+.avatar {
+  width: 128px; height: 128px; border-radius: 22px;
+  background: var(--card); border: 1px solid var(--line);
+  box-shadow: var(--shadow); flex: none;
+}
+@media (max-width: 720px) { .avatar { width: 88px; height: 88px; border-radius: 18px; } }
+
+.links { display: flex; flex-wrap: wrap; gap: 9px; margin-top: 26px; }
+.links a {
+  display: inline-flex; align-items: center; gap: 7px;
+  border: 1px solid var(--line); background: var(--card); color: var(--text);
+  padding: 8px 14px; border-radius: 9px; font-size: 14px; font-weight: 550;
+  box-shadow: 0 1px 2px rgba(16,32,56,.04);
+}
+.links a:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
+.links svg { width: 15px; height: 15px; flex: none; }
+
+/* ── 섹션 ─────────────────────────────────────────────── */
+section { padding: 52px 0; border-top: 1px solid var(--line-soft); }
+.sec-head { margin-bottom: 30px; }
+.sec-head h2 { font-size: 24px; font-weight: 700; }
+.sec-head p { color: var(--muted); margin: 8px 0 0; font-size: 15px; }
+
+/* ── 프로젝트 ─────────────────────────────────────────── */
+.cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 16px; }
+.card {
+  background: var(--card); border: 1px solid var(--line); border-radius: var(--radius);
+  padding: 22px; display: flex; flex-direction: column;
+  transition: border-color .18s, transform .18s, box-shadow .18s;
+}
+.card:hover { border-color: var(--accent); transform: translateY(-2px); box-shadow: var(--shadow); }
+.card.feature { grid-column: 1 / -1; }
+@media (min-width: 860px) {
+  .card.feature { display: grid; grid-template-columns: 1.15fr .85fr; gap: 30px; align-items: center; }
+}
+.card h3 { font-size: 17.5px; font-weight: 670; }
+.card .meta { font-size: 12.5px; color: var(--faint); margin-top: 6px; font-weight: 500; }
+.card p { color: var(--muted); font-size: 14.8px; margin: 12px 0 0; flex: 1; }
+.tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 16px; }
+.tag {
+  font-size: 11.5px; font-weight: 600; color: var(--muted);
+  background: var(--bg-soft); border: 1px solid var(--line-soft);
+  padding: 3px 9px; border-radius: 6px; letter-spacing: .01em;
+}
+.acts { display: flex; gap: 8px; margin-top: 18px; flex-wrap: wrap; }
+.acts a {
+  font-size: 13.5px; font-weight: 600; padding: 7px 13px; border-radius: 8px;
+  border: 1px solid var(--line);
+}
+.acts a.primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+.acts a.primary:hover { filter: brightness(1.08); text-decoration: none; }
+.acts a.ghost { color: var(--muted); }
+.acts a.ghost:hover { color: var(--text); border-color: var(--accent); text-decoration: none; }
+
+.shot {
+  border: 1px solid var(--line); border-radius: 10px; overflow: hidden;
+  background: var(--bg-soft); aspect-ratio: 16 / 10;
+  display: flex; align-items: center; justify-content: center;
+}
+.shot svg { width: 100%; height: 100%; display: block; }
+@media (max-width: 859px) { .card.feature .shot { margin-top: 18px; } }
+
+/* ── 연구 ─────────────────────────────────────────────── */
+.two { display: grid; grid-template-columns: 1fr 1fr; gap: 34px; }
+@media (max-width: 800px) { .two { grid-template-columns: 1fr; gap: 26px; } }
+
+.chips { display: flex; flex-wrap: wrap; gap: 7px; }
+.chip {
+  font-size: 13px; font-weight: 550; color: var(--text);
+  background: var(--card); border: 1px solid var(--line);
+  padding: 6px 12px; border-radius: 999px;
+}
+
+ul.pubs { list-style: none; padding: 0; margin: 0; }
+ul.pubs li { padding: 15px 0; border-bottom: 1px solid var(--line-soft); }
+ul.pubs li:last-child { border-bottom: 0; }
+ul.pubs .t { font-weight: 600; font-size: 15px; display: block; }
+ul.pubs .v { font-size: 13.5px; color: var(--muted); margin-top: 4px; display: block; }
+ul.pubs .y {
+  display: inline-block; font-size: 12px; font-weight: 700; color: var(--accent);
+  background: var(--accent-sf); padding: 1px 8px; border-radius: 5px; margin-right: 8px;
+}
+
+.rows { list-style: none; padding: 0; margin: 0; }
+.rows li {
+  display: grid; grid-template-columns: 92px 1fr; gap: 16px;
+  padding: 13px 0; border-bottom: 1px solid var(--line-soft); font-size: 15px;
+}
+.rows li:last-child { border-bottom: 0; }
+.rows .k { color: var(--faint); font-size: 13.5px; font-weight: 600; padding-top: 1px; }
+@media (max-width: 520px) { .rows li { grid-template-columns: 1fr; gap: 3px; } }
+
+.note {
+  background: var(--bg-soft); border: 1px solid var(--line-soft);
+  border-left: 3px solid var(--accent);
+  border-radius: 0 10px 10px 0; padding: 15px 18px;
+  font-size: 14.5px; color: var(--muted); margin-top: 26px;
+}
+
+/* ── 바닥글 ───────────────────────────────────────────── */
+footer {
+  border-top: 1px solid var(--line-soft); padding: 34px 0 46px;
+  color: var(--faint); font-size: 13.5px;
+}
+.foot { display: flex; flex-wrap: wrap; gap: 14px; align-items: center; justify-content: space-between; }
+.foot a { color: var(--muted); }
+</style>
+</head>
+
+<body>
+
+<header>
+  <div class="wrap nav">
+    <a class="brand" href="#top"><span class="dot"></span>Yoon-Sik Yoo</a>
+    <a class="item" href="#projects"><span class="ko">프로젝트</span><span class="en">Projects</span></a>
+    <a class="item" href="#research"><span class="ko">연구</span><span class="en">Research</span></a>
+    <a class="item" href="#about"><span class="ko">소개</span><span class="en">About</span></a>
+    <a class="item" href="#contact"><span class="ko">연락</span><span class="en">Contact</span></a>
+    <button class="tog" id="lang" type="button" aria-label="Switch language">
+      <span class="ko">EN</span><span class="en">KO</span>
+    </button>
+    <button class="tog" id="theme" type="button" aria-label="Toggle theme">◐</button>
+  </div>
+</header>
+
+<main id="top">
+
+  <!-- ══ 히어로 ══════════════════════════════════════════ -->
+  <div class="wrap hero">
+    <div class="hero-grid">
+      <div>
+        <span class="eyebrow">
+          <span class="ko">ETRI 책임연구원</span><span class="en">Principal Researcher, ETRI</span>
+        </span>
+        <h1>Yoon-Sik Yoo<span class="ko">, Ph.D.</span><span class="en">, Ph.D.</span></h1>
+        <p class="sub">
+          <span class="ko">한국전자통신연구원 · 대전</span>
+          <span class="en">Electronics and Telecommunications Research Institute · Daejeon, Korea</span>
+        </p>
+        <p class="lede">
+          <span class="ko">에너지 시스템과 통신망을 <strong>최적화 문제로 바꿔 푸는 일</strong>을 합니다.
+            스마트그리드 수요관리, 분산자원 거래, 산업설비 이상 예측이 주된 주제입니다.
+            연구와 별개로, <strong>빌드 도구 없이 파일 하나로 도는</strong> 웹 3D·시뮬레이션을 만들어 여기에 정리합니다.</span>
+          <span class="en">I turn energy systems and networks into <strong>optimization problems</strong> —
+            smart-grid demand management, distributed energy trading, and fault prediction for industrial equipment.
+            On the side I build web 3D and simulations that <strong>run from a single file, with no build step</strong>,
+            and collect them here.</span>
+        </p>
+
+        <div class="links">
+          <a href="https://github.com/midasyoo" target="_blank" rel="noopener">
+            <svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.4 7.4 0 0 1 2-.27c.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg>
+            GitHub
+          </a>
+          <a href="https://scholar.google.com/citations?user=JoeNb9AAAAAJ" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2 1 8l11 6 9-4.91V17h2V8L12 2Z"/><path d="M5 13.18v4L12 21l7-3.82v-4L12 17l-7-3.82Z"/></svg>
+            Google Scholar
+          </a>
+          <a href="https://sites.google.com/view/yoon-sik-yoo" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a15 15 0 0 1 0 18a15 15 0 0 1 0-18"/></svg>
+            <span class="ko">연구 홈페이지</span><span class="en">Research site</span>
+          </a>
+          <a href="mailto:midasyoo@etri.re.kr">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 7 10 6 10-6"/></svg>
+            Email
+          </a>
+        </div>
+      </div>
+
+      <img class="avatar" src="assets/avatar.svg" alt="" width="128" height="128">
+    </div>
+  </div>
+
+  <!-- ══ 프로젝트 ════════════════════════════════════════ -->
+  <section id="projects">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2><span class="ko">프로젝트</span><span class="en">Projects</span></h2>
+        <p>
+          <span class="ko">모두 브라우저에서 바로 열립니다. 설치·서버·빌드 도구가 필요 없습니다.</span>
+          <span class="en">Everything opens straight in a browser — no install, no server, no build tooling.</span>
+        </p>
+      </div>
+
+      <div class="cards">
+
+        <!-- 대표 프로젝트 -->
+        <article class="card feature">
+          <div>
+            <h3><span class="ko">ETRI 본원 3D 조감도</span><span class="en">ETRI Campus 3D Map</span></h3>
+            <div class="meta">2026 · three.js · <span class="mono">~5,000 LOC</span></div>
+            <p>
+              <span class="ko">대전본원 캠퍼스를 3D로 재현하고, 정문에서 건물 입구까지 실제 도로를 따라 길을 안내합니다.
+                302개 노드 도로 그래프에서 최단경로를 구하고, 방문 날짜·시각을 넣으면 그 시각의 태양 고도를
+                천문 계산으로 산출해 하늘·그림자·조명을 바꿉니다. 안내 캐릭터 23종이 음성과 함께 길을 앞서갑니다.</span>
+              <span class="en">A 3D reconstruction of the Daejeon campus that walks you from the main gate to any
+                building entrance along real roads. Shortest paths come from a 302-node road graph; entering a date and
+                time recomputes the sun's altitude astronomically and reshapes the sky, shadows, and lighting.
+                Twenty-three guide characters lead the way, with voice.</span>
+            </p>
+            <div class="tags">
+              <span class="tag">three.js</span><span class="tag">Dijkstra</span>
+              <span class="tag">OpenStreetMap</span><span class="tag">PWA</span>
+              <span class="tag">Zero-build</span>
+            </div>
+            <div class="acts">
+              <a class="primary" href="https://midasyoo.github.io/etri-3d-map/" target="_blank" rel="noopener">
+                <span class="ko">열어보기</span><span class="en">Open</span>
+              </a>
+              <a class="ghost" href="https://github.com/midasyoo/etri-3d-map" target="_blank" rel="noopener">
+                <span class="ko">소스</span><span class="en">Source</span>
+              </a>
+            </div>
+          </div>
+          <div class="shot" aria-hidden="true">
+            <svg viewBox="0 0 320 200" role="img">
+              <defs>
+                <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0" stop-color="#8fb8e8"/><stop offset="1" stop-color="#dbe8f7"/>
+                </linearGradient>
+              </defs>
+              <rect width="320" height="200" fill="url(#sky)"/>
+              <circle cx="258" cy="40" r="15" fill="#ffe9a8"/>
+              <path d="M0 118 L58 82 L104 108 L152 70 L208 104 L262 76 L320 106 L320 200 L0 200Z" fill="#6f9a72"/>
+              <path d="M0 134 L64 112 L128 132 L196 110 L260 130 L320 112 L320 200 L0 200Z" fill="#87ab84"/>
+              <g fill="#f4f6f9" stroke="#c3ccd8" stroke-width="1">
+                <rect x="44" y="120" width="34" height="48"/><rect x="92" y="106" width="28" height="62"/>
+                <rect x="134" y="128" width="40" height="40"/><rect x="188" y="112" width="30" height="56"/>
+                <rect x="232" y="124" width="36" height="44"/>
+              </g>
+              <g fill="#b9c5d3">
+                <rect x="49" y="126" width="5" height="5"/><rect x="59" y="126" width="5" height="5"/><rect x="69" y="126" width="5" height="5"/>
+                <rect x="49" y="138" width="5" height="5"/><rect x="59" y="138" width="5" height="5"/><rect x="69" y="138" width="5" height="5"/>
+                <rect x="97" y="114" width="5" height="5"/><rect x="107" y="114" width="5" height="5"/>
+                <rect x="97" y="128" width="5" height="5"/><rect x="107" y="128" width="5" height="5"/>
+                <rect x="139" y="136" width="5" height="5"/><rect x="149" y="136" width="5" height="5"/><rect x="159" y="136" width="5" height="5"/>
+                <rect x="193" y="120" width="5" height="5"/><rect x="203" y="120" width="5" height="5"/>
+                <rect x="237" y="132" width="5" height="5"/><rect x="247" y="132" width="5" height="5"/><rect x="257" y="132" width="5" height="5"/>
+              </g>
+              <path d="M16 192 Q90 176 118 168 T210 150 T304 140" fill="none"
+                    stroke="#f59e0b" stroke-width="4" stroke-linecap="round"/>
+              <circle cx="16" cy="192" r="5" fill="#16a34a" stroke="#fff" stroke-width="1.5"/>
+              <circle cx="304" cy="140" r="5" fill="#dc2626" stroke="#fff" stroke-width="1.5"/>
+            </svg>
+          </div>
+        </article>
+
+        <article class="card">
+          <h3><span class="ko">야구 투구 트레이너</span><span class="en">Baseball Pitch Trainer</span></h3>
+          <div class="meta">2026 · 3D · <span class="ko">어린이용</span><span class="en">for kids</span></div>
+          <p>
+            <span class="ko">직구·커브·슬라이더 등 구종 14가지를 그립, 릴리스 포인트, 회전, 투구 동작, 궤적까지
+              3D로 나눠 보여줍니다. 왜 공이 휘는지를 글이 아니라 눈으로 익히게 하는 것이 목표입니다.</span>
+            <span class="en">Fourteen pitch types broken down in 3D — grip, release point, spin, delivery, and
+              trajectory. The goal is to let a kid <em>see</em> why a ball breaks instead of reading about it.</span>
+          </p>
+          <div class="tags"><span class="tag">3D</span><span class="tag">Physics</span><span class="tag">Education</span></div>
+          <div class="acts">
+            <a class="primary" href="https://midasyoo.github.io/baseball-pitch-trainer/" target="_blank" rel="noopener">
+              <span class="ko">열어보기</span><span class="en">Open</span></a>
+            <a class="ghost" href="https://github.com/midasyoo/baseball-pitch-trainer" target="_blank" rel="noopener">
+              <span class="ko">소스</span><span class="en">Source</span></a>
+          </div>
+        </article>
+
+        <article class="card">
+          <h3>STAKKA <span class="mono" style="font-weight:500;color:var(--faint)">1 · 2 · 3</span></h3>
+          <div class="meta">2026 · Canvas · <span class="mono">single file, 0 deps</span></div>
+          <p>
+            <span class="ko">손가락 하나로 탑을 쌓는 게임 3부작. 1편은 기본 규칙, 2편은 10개 하늘 구역과
+              체크포인트 스토리, 3편은 쫓아오는 붕괴선을 추가했습니다. 세 편 모두 HTML 파일 하나이고
+              외부 의존성이 없습니다.</span>
+            <span class="en">A one-finger stacking trilogy. The first sets the rules, the second adds ten sky zones
+              and a checkpoint story, the third adds a collapse line that chases you upward. Each is a single
+              HTML file with zero dependencies.</span>
+          </p>
+          <div class="tags"><span class="tag">Canvas</span><span class="tag">HTML5 Game</span><span class="tag">Hypercasual</span></div>
+          <div class="acts">
+            <a class="primary" href="https://midasyoo.github.io/stakka3/" target="_blank" rel="noopener">STAKKA 3</a>
+            <a class="ghost" href="https://midasyoo.github.io/stakka2/" target="_blank" rel="noopener">2</a>
+            <a class="ghost" href="https://midasyoo.github.io/stakka/" target="_blank" rel="noopener">1</a>
+            <a class="ghost" href="https://github.com/midasyoo?tab=repositories&q=stakka" target="_blank" rel="noopener">
+              <span class="ko">소스</span><span class="en">Source</span></a>
+          </div>
+        </article>
+
+        <article class="card">
+          <h3>paper-magazine</h3>
+          <div class="meta">2026 · Astro</div>
+          <p>
+            <span class="ko">읽은 논문을 잡지처럼 편집해 쌓아두는 블로그. 초록을 그대로 옮기지 않고
+              무엇이 새로운지를 한 문단으로 다시 쓰는 것을 규칙으로 삼고 있습니다.</span>
+            <span class="en">A blog that lays out papers I've read like magazine spreads. The rule is to never
+              paste an abstract — each entry restates what is actually new in one paragraph.</span>
+          </p>
+          <div class="tags"><span class="tag">Astro</span><span class="tag">Writing</span></div>
+          <div class="acts">
+            <a class="primary" href="https://midasyoo.github.io/paper-magazine/" target="_blank" rel="noopener">
+              <span class="ko">열어보기</span><span class="en">Open</span></a>
+            <a class="ghost" href="https://github.com/midasyoo/paper-magazine" target="_blank" rel="noopener">
+              <span class="ko">소스</span><span class="en">Source</span></a>
+          </div>
+        </article>
+
+      </div>
+
+      <div class="note">
+        <span class="ko"><strong>이 사이트는 개발 기록 중심으로 시작합니다.</strong>
+          쓰면서 쓰임새를 정리해 나갈 예정이라, 구성은 앞으로 달라질 수 있습니다.
+          논문·특허 등 연구 이력은 <a href="https://sites.google.com/view/yoon-sik-yoo" target="_blank" rel="noopener">연구 홈페이지</a>를
+          함께 봐 주세요.</span>
+        <span class="en"><strong>This site starts as a development log.</strong>
+          Its shape will change as I figure out what I actually want from it.
+          For the full research record, see my
+          <a href="https://sites.google.com/view/yoon-sik-yoo" target="_blank" rel="noopener">research site</a>.</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ 연구 ════════════════════════════════════════════ -->
+  <section id="research">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2><span class="ko">연구</span><span class="en">Research</span></h2>
+        <p>
+          <span class="ko">전력 시스템과 통신망의 자원 배분 문제를 다룹니다.</span>
+          <span class="en">Resource allocation problems in power systems and communication networks.</span>
+        </p>
+      </div>
+
+      <div class="two">
+        <div>
+          <h3 style="font-size:16px;margin-bottom:14px">
+            <span class="ko">관심 분야</span><span class="en">Interests</span>
+          </h3>
+          <div class="chips">
+            <span class="chip">Smart Grid</span>
+            <span class="chip">Demand Side Energy Management</span>
+            <span class="chip">Convex Optimization</span>
+            <span class="chip">Energy Trading</span>
+            <span class="chip">Game Theory</span>
+            <span class="chip">IoT</span>
+            <span class="chip">Electricity Markets</span>
+            <span class="chip">Anomaly Prediction</span>
+          </div>
+
+          <h3 style="font-size:16px;margin:30px 0 14px">
+            <span class="ko">특허</span><span class="en">Patents</span>
+          </h3>
+          <ul class="pubs">
+            <li>
+              <span class="t">Electronic device for predicting occurrence of air leakage of an air compressor
+                and method of operating the same</span>
+              <span class="v"><span class="y">2025</span>US Patent Application 18/966,372</span>
+            </li>
+            <li>
+              <span class="t">Management server, terminal, and method for providing and applying wireless LAN
+                security policy by participating in multiple access points</span>
+              <span class="v"><span class="y">2025</span>US Patent 12,207,090</span>
+            </li>
+          </ul>
+        </div>
+
+        <div>
+          <h3 style="font-size:16px;margin-bottom:6px">
+            <span class="ko">주요 논문</span><span class="en">Selected Publications</span>
+          </h3>
+          <ul class="pubs">
+            <li>
+              <span class="t">Early detection of air leakage in IoT-connected compressors using enhanced data
+                sampling with deep learning</span>
+              <span class="v"><span class="y">2026</span>Scientific Reports</span>
+            </li>
+            <li>
+              <span class="t">Contrastive representation learning for surge prediction in air compressor systems</span>
+              <span class="v"><span class="y">2025</span>Measurement</span>
+            </li>
+            <li>
+              <span class="t">Detailed architectural design of a multi-head self-attention model for
+                lithium-ion battery capacity forecasting</span>
+              <span class="v"><span class="y">2025</span>IEEE Access 13:48212–48225</span>
+            </li>
+            <li>
+              <span class="t">Energy trading among power grid and renewable energy sources</span>
+              <span class="v"><span class="y">2021</span>Sensors</span>
+            </li>
+            <li>
+              <span class="t">Group connectivity-based UAV positioning and data slot allocation for tactical MANET</span>
+              <span class="v"><span class="y">2020</span>IEEE Access</span>
+            </li>
+            <li>
+              <span class="t">Energy-efficient TDMA scheduling for UVS tactical MANET</span>
+              <span class="v"><span class="y">2019</span>IEEE Communications Letters</span>
+            </li>
+            <li>
+              <span class="t">Peer-to-peer based energy trading system for heterogeneous small-scale DERs</span>
+              <span class="v"><span class="y">2017</span>ICTC</span>
+            </li>
+          </ul>
+          <p style="margin-top:16px;font-size:14px">
+            <a href="https://scholar.google.com/citations?user=JoeNb9AAAAAJ" target="_blank" rel="noopener">
+              <span class="ko">전체 목록 · Google Scholar →</span><span class="en">Full list on Google Scholar →</span>
+            </a>
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ 소개 ════════════════════════════════════════════ -->
+  <section id="about">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2><span class="ko">소개</span><span class="en">About</span></h2>
+      </div>
+
+      <div class="two">
+        <div>
+          <ul class="rows">
+            <li>
+              <span class="k"><span class="ko">소속</span><span class="en">Affiliation</span></span>
+              <span><span class="ko">한국전자통신연구원(ETRI) 책임연구원</span>
+                    <span class="en">Principal Researcher, ETRI</span></span>
+            </li>
+            <li>
+              <span class="k"><span class="ko">학위</span><span class="en">Education</span></span>
+              <span><span class="ko">KAIST 공학박사</span><span class="en">Ph.D., KAIST</span></span>
+            </li>
+            <li>
+              <span class="k"><span class="ko">지역</span><span class="en">Location</span></span>
+              <span><span class="ko">대전, 대한민국</span><span class="en">Daejeon, Republic of Korea</span></span>
+            </li>
+          </ul>
+
+          <!-- ────────────────────────────────────────────────────────────
+               채울 곳: 학력 연도, 이전 경력, 수상, 학회 활동 등
+               아래 <li> 형식을 그대로 복사해 rows 목록에 추가하면 됩니다.
+                 <li><span class="k">2010</span><span>KAIST 박사 졸업</span></li>
+               ──────────────────────────────────────────────────────────── -->
+        </div>
+
+        <div>
+          <p style="color:var(--muted);margin-top:0">
+            <span class="ko">연구는 대부분 “한정된 자원을 누구에게 얼마나 줄 것인가”로 요약됩니다.
+              전력망에서는 발전과 수요를 맞추는 문제이고, 통신망에서는 시간 슬롯과 위치를 나누는 문제입니다.
+              최근에는 산업 설비에서 나오는 센서 데이터로 고장을 미리 잡아내는 쪽을 보고 있습니다.</span>
+            <span class="en">Most of my work reduces to one question: given a limited resource, who gets how much?
+              In a power grid it is matching generation to demand; in a network it is dividing time slots and
+              positions. Lately I have been working on catching equipment faults early from industrial sensor data.</span>
+          </p>
+          <p style="color:var(--muted)">
+            <span class="ko">개발은 취미에 가깝지만 규칙은 하나 지킵니다 —
+              <strong style="color:var(--text)">설치 없이 열리게 만들 것.</strong>
+              빌드 도구도, 패키지 매니저도 쓰지 않습니다. 링크를 누르면 바로 돌아야 누군가 한 번이라도 더 써 봅니다.</span>
+            <span class="en">The building is closer to a hobby, but it follows one rule —
+              <strong style="color:var(--text)">it has to open without being installed.</strong>
+              No build tools, no package managers. If a link just works, someone might actually try it.</span>
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ 연락 ════════════════════════════════════════════ -->
+  <section id="contact">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2><span class="ko">연락</span><span class="en">Contact</span></h2>
+      </div>
+      <ul class="rows" style="max-width:640px">
+        <li><span class="k">Email</span><span><a href="mailto:midasyoo@etri.re.kr">midasyoo@etri.re.kr</a></span></li>
+        <li><span class="k">GitHub</span><span><a href="https://github.com/midasyoo" target="_blank" rel="noopener">github.com/midasyoo</a></span></li>
+        <li><span class="k">Scholar</span><span><a href="https://scholar.google.com/citations?user=JoeNb9AAAAAJ" target="_blank" rel="noopener">Google Scholar</a></span></li>
+        <li><span class="k"><span class="ko">연구</span><span class="en">Research</span></span><span><a href="https://sites.google.com/view/yoon-sik-yoo" target="_blank" rel="noopener">sites.google.com/view/yoon-sik-yoo</a></span></li>
+      </ul>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap foot">
+    <span>© <span id="yr">2026</span> Yoon-Sik Yoo</span>
+    <span>
+      <span class="ko">이 사이트는 의존성 없이 정적 파일로만 만들어졌습니다.</span>
+      <span class="en">Built as plain static files, with no dependencies.</span>
+      · <a href="https://github.com/midasyoo/midasyoo.github.io" target="_blank" rel="noopener">source</a>
+    </span>
+  </div>
+</footer>
+
+<script>
+(function () {
+  'use strict';
+  var root = document.documentElement;
+
+  /* 저장된 선택이 있으면 복원 (없으면 기본값 유지) */
+  try {
+    var L = localStorage.getItem('lang');
+    if (L === 'ko' || L === 'en') setLang(L);
+    var T = localStorage.getItem('theme');
+    if (T === 'light' || T === 'dark') root.setAttribute('data-theme', T);
+  } catch (e) { /* 프라이빗 모드 등 — 기본값으로 진행 */ }
+
+  function setLang(v) {
+    root.setAttribute('data-lang', v);
+    root.setAttribute('lang', v);
+    try { localStorage.setItem('lang', v); } catch (e) {}
+  }
+
+  document.getElementById('lang').addEventListener('click', function () {
+    setLang(root.getAttribute('data-lang') === 'ko' ? 'en' : 'ko');
+  });
+
+  document.getElementById('theme').addEventListener('click', function () {
+    var cur = root.getAttribute('data-theme');
+    if (!cur) {                                   /* 시스템 설정을 따르던 중이면 그 반대로 */
+      cur = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    }
+    var next = cur === 'dark' ? 'light' : 'dark';
+    root.setAttribute('data-theme', next);
+    try { localStorage.setItem('theme', next); } catch (e) {}
+  });
+
+  document.getElementById('yr').textContent = new Date().getFullYear();
+})();
+</script>
+
+</body>
+</html>
