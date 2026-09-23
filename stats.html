@@ -128,6 +128,8 @@
   var PAGES = [
     { path: '',                       ko: '홈페이지',            en: 'Homepage' },
     { path: '/etri-3d-map',           ko: 'ETRI 본원 3D 조감도', en: 'ETRI Campus 3D Map' },
+    { path: '/etri-3d-map/mobile.html', ko: '└ 스마트폰 화면',   en: '└ mobile view',
+      href: '/etri-3d-map/mobile.html' },
     { path: '/baseball-pitch-trainer',ko: '야구 투구 트레이너',   en: 'Baseball Pitch Trainer' },
     { path: '/stakka3',               ko: 'STAKKA 3',            en: 'STAKKA 3' },
     { path: '/stakka2',               ko: 'STAKKA 2',            en: 'STAKKA 2' },
@@ -150,14 +152,15 @@
     var tr = document.createElement('tr');
 
     var td1 = document.createElement('td');
+    var url = p.href || ((p.path || '/') + (p.path ? '/' : ''));
     var a = document.createElement('a');
-    a.href = (p.path || '/') + (p.path ? '/' : '');
+    a.href = url;
     a.className = 'nm';
     a.target = '_blank'; a.rel = 'noopener';
     a.innerHTML = '<span class="ko">' + p.ko + '</span><span class="en">' + p.en + '</span>';
     var sp = document.createElement('span');
     sp.className = 'pt';
-    sp.textContent = (p.path || '/') + (p.path ? '/' : '');
+    sp.textContent = url;
     td1.appendChild(a); td1.appendChild(sp);
 
     var td2 = document.createElement('td');

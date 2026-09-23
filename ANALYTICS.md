@@ -66,12 +66,21 @@
 <script src="https://midasyoo.github.io/assets/analytics.js" defer></script>
 ```
 
-| 저장소 | 넣을 파일 |
-|---|---|
-| `etri-3d-map` | `index.html`, `mobile.html` |
-| `baseball-pitch-trainer` | `index.html` |
-| `stakka`, `stakka2`, `stakka3` | `index.html` |
-| `paper-magazine` | 레이아웃 파일 (Astro는 `src/layouts/` 아래) |
+| 저장소 | 넣을 파일 | 상태 |
+|---|---|---|
+| `etri-3d-map` | `index.html`, `mobile.html` | ✅ 적용 (빌드 스크립트가 자동 주입) |
+| `baseball-pitch-trainer` | `index.html`, `index_pc.html` | ✅ 적용 |
+| `stakka`, `stakka2`, `stakka3` | `index.html` | ✅ 적용 |
+| `paper-magazine` | 레이아웃 파일 (Astro는 `src/layouts/` 아래) | 미적용 |
+
+`etri-3d-map` 은 공개판을 `tools/build_public.py` 가 생성하므로, 결과물을 직접 고치면
+다음 빌드에서 지워진다. 그래서 **빌드 스크립트가 단일 파일을 만든 뒤 웹 버전에만 주입**하도록
+해 두었고, 빌드 종료 시 다음 문구로 확인된다.
+
+```
+검증: 내부 정보 잔여 없음 ✅
+집계: 웹 버전에만 포함, 단일 파일은 외부 요청 없음 ✅
+```
 
 집계 로직은 [assets/analytics.js](assets/analytics.js) 한 곳에만 있다.
 **나중에 도구를 바꾸거나 설정을 고칠 때 이 파일만 수정하면 전 프로젝트에 반영된다.**
