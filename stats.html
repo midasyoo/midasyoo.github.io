@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>방문 통계 · Yoon-Sik Yoo</title>
-<meta name="description" content="midasyoo.github.io와 그 아래 프로젝트 페이지의 조회 수.">
+<meta name="description" content="midasyoo.github.io와 그 아래 프로젝트 페이지의 조회 수와 국가 분포.">
 <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
 <meta name="robots" content="noindex">
 <style>
@@ -26,37 +26,54 @@
     line-height: 1.7; font-size: 16px; letter-spacing: -.005em;
     -webkit-font-smoothing: antialiased;
   }
-  .wrap { max-width: 800px; margin: 0 auto; padding: 0 24px; }
+  .wrap { max-width: 860px; margin: 0 auto; padding: 0 24px; }
   a { color: var(--accent); }
   h1 { font-size: 27px; font-weight: 740; letter-spacing: -.02em; margin: 0 0 8px; }
-  h2 { font-size: 17px; font-weight: 680; margin: 36px 0 12px; }
+  h2 { font-size: 18px; font-weight: 690; margin: 0 0 4px; letter-spacing: -.015em; }
   .lede { color: var(--muted); margin: 0; }
   header { border-bottom: 1px solid var(--line-soft); padding: 14px 0; }
   header a { font-weight: 640; font-size: 15px; text-decoration: none; color: var(--text); }
-  main { padding: 42px 0 70px; }
+  main { padding: 40px 0 70px; }
+
+  section { margin-top: 42px; }
+  .sechead { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; flex-wrap: wrap; margin-bottom: 14px; }
+  .sechead p { color: var(--muted); margin: 2px 0 0; font-size: 14.5px; }
+  .total { font-size: 13px; color: var(--faint); font-weight: 600; white-space: nowrap; }
+
+  table { width: 100%; border-collapse: collapse; }
+  th, td { text-align: left; padding: 11px 10px; border-bottom: 1px solid var(--line-soft); }
+  th { color: var(--faint); font-size: 12.5px; font-weight: 650; }
+  td.n { text-align: right; width: 1%; white-space: nowrap; font-variant-numeric: tabular-nums;
+         font-weight: 660; font-size: 15.5px; }
+  .nm { font-weight: 580; }
+  .pt { display: block; font-size: 12.5px; color: var(--faint);
+        font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+  .sub td:first-child { padding-left: 26px; }
+  .dash { color: var(--faint); font-weight: 400; }
+
+  /* 막대 */
+  .bar { position: relative; height: 6px; background: var(--bg-soft); border-radius: 99px; margin-top: 7px; overflow: hidden; }
+  .bar > i { position: absolute; inset: 0 auto 0 0; background: var(--accent); border-radius: 99px; width: 0; transition: width .5s ease; }
+
+  .cc { display: inline-block; min-width: 2.2em; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+        font-size: 12.5px; color: var(--faint); margin-right: 9px; }
+
+  .status { color: var(--faint); font-size: 14px; padding: 14px 2px; }
+  .empty { color: var(--faint); font-size: 14.5px; padding: 18px 2px; }
 
   .box {
     background: var(--card); border: 1px solid var(--line); border-left: 3px solid var(--accent);
     border-radius: 0 10px 10px 0; padding: 15px 18px; color: var(--muted);
-    font-size: 14.8px; margin: 24px 0;
+    font-size: 14.6px; margin-top: 30px;
   }
   .box strong { color: var(--text); }
 
-  button.load {
-    background: var(--accent); color: #fff; border: 0; border-radius: 9px;
-    padding: 11px 22px; font: inherit; font-size: 15px; font-weight: 640; cursor: pointer;
+  button.more {
+    border: 1px solid var(--line); background: var(--card); color: var(--muted);
+    border-radius: 8px; padding: 8px 15px; font: inherit; font-size: 13.5px; font-weight: 600; cursor: pointer;
   }
-  button.load:hover { filter: brightness(1.08); }
-  button.load[disabled] { opacity: .5; cursor: default; filter: none; }
-
-  table { width: 100%; border-collapse: collapse; margin-top: 10px; }
-  th, td { text-align: left; padding: 12px 10px; border-bottom: 1px solid var(--line-soft); }
-  th { color: var(--faint); font-size: 12.5px; font-weight: 650; }
-  td.n { text-align: right; width: 1%; white-space: nowrap; }
-  td.n img { height: 20px; vertical-align: middle; border-radius: 4px; }
-  .dash { color: var(--faint); }
-  .nm { font-weight: 580; }
-  .pt { display: block; font-size: 12.5px; color: var(--faint); font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+  button.more:hover { color: var(--text); border-color: var(--accent); }
+  button.more[disabled] { opacity: .5; cursor: default; }
 
   footer { border-top: 1px solid var(--line-soft); padding: 22px 0 40px; color: var(--faint); font-size: 13.5px; }
   :root[data-lang="ko"] .en { display: none; }
@@ -70,47 +87,60 @@
 </header>
 
 <main class="wrap">
-  <h1><span class="ko">방문 통계</span><span class="en">Visit counts</span></h1>
+  <h1><span class="ko">방문 통계</span><span class="en">Visit stats</span></h1>
   <p class="lede">
     <span class="ko">홈페이지와 그 아래 프로젝트 페이지의 누적 조회 수입니다.</span>
     <span class="en">Cumulative view counts for this site and its project pages.</span>
   </p>
 
+  <section>
+    <div class="sechead">
+      <div>
+        <h2><span class="ko">페이지별</span><span class="en">By page</span></h2>
+        <p><span class="ko">어느 프로젝트가 실제로 열리는지</span>
+           <span class="en">Which projects actually get opened</span></p>
+      </div>
+      <span class="total" id="page-total"></span>
+    </div>
+    <table><tbody id="pages"></tbody></table>
+    <div class="status" id="page-status">
+      <span class="ko">불러오는 중…</span><span class="en">Loading…</span>
+    </div>
+  </section>
+
+  <section>
+    <div class="sechead">
+      <div>
+        <h2><span class="ko">국가별</span><span class="en">By country</span></h2>
+        <p><span class="ko">방문자 IP로 판별한 국가. IP는 저장하지 않습니다</span>
+           <span class="en">Country inferred from visitor IP. The IP itself is not stored</span></p>
+      </div>
+      <span class="total" id="geo-total"></span>
+    </div>
+    <table><tbody id="geo"></tbody></table>
+    <div class="status" id="geo-status"></div>
+    <p style="margin-top:14px">
+      <button class="more" id="more" type="button" hidden>
+        <span class="ko">국가 더 찾아보기</span><span class="en">Search more countries</span>
+      </button>
+    </p>
+  </section>
+
   <div class="box">
-    <span class="ko"><strong>이 페이지를 열면 각 항목의 숫자가 1씩 올라갑니다.</strong>
-      쓰는 집계 도구가 숫자를 읽어오는 방법을 따로 제공하지 않아, 배지를 불러오는 것이
-      곧 집계이기 때문입니다. 그래서 자동으로 불러오지 않고 아래 버튼을 눌렀을 때만 가져옵니다.</span>
-    <span class="en"><strong>Opening this page adds 1 to every count below.</strong>
-      The counter service has no read-only endpoint — fetching the badge <em>is</em> the count.
-      So nothing loads automatically; the numbers are fetched only when you press the button.</span>
+    <span class="ko"><strong>이 페이지를 열어도 숫자는 변하지 않습니다.</strong>
+      읽기와 집계가 분리된 카운터를 쓰기 때문입니다.
+      다만 <b>조회 수이지 방문자 수가 아닙니다</b> — 같은 사람이 새로고침하면 그만큼 올라갑니다.
+      유입 경로·시간대·기기까지 보려면
+      <a href="https://github.com/midasyoo/midasyoo.github.io/blob/gh-pages/ANALYTICS.md">ANALYTICS.md</a>의
+      상세 통계를 켜면 됩니다.</span>
+    <span class="en"><strong>Opening this page does not change any number.</strong>
+      Reading and counting use separate endpoints.
+      Note these are <b>views, not visitors</b> — a reload by the same person adds one.
+      For referrers, time-of-day, and devices, enable detailed stats in
+      <a href="https://github.com/midasyoo/midasyoo.github.io/blob/gh-pages/ANALYTICS.md">ANALYTICS.md</a>.</span>
   </div>
 
-  <p><button class="load" id="go" type="button">
-    <span class="ko">숫자 불러오기</span><span class="en">Load counts</span>
-  </button></p>
-
-  <table>
-    <thead>
-      <tr>
-        <th><span class="ko">페이지</span><span class="en">Page</span></th>
-        <th class="n"><span class="ko">조회</span><span class="en">Views</span></th>
-      </tr>
-    </thead>
-    <tbody id="rows"></tbody>
-  </table>
-
-  <h2><span class="ko">더 자세히 보려면</span><span class="en">For more detail</span></h2>
-  <p style="color:var(--muted);font-size:15px">
-    <span class="ko">여기서는 <b>몇 번 열렸는지</b>만 알 수 있습니다.
-      어디를 거쳐 들어왔는지, 어느 나라에서 왔는지, 어떤 기기로 봤는지까지 보려면
-      <a href="https://github.com/midasyoo/midasyoo.github.io/blob/gh-pages/ANALYTICS.md">ANALYTICS.md</a>의
-      상세 통계 설정을 따라 하시면 됩니다. 2분이면 되고 무료입니다.</span>
-    <span class="en">This page only shows <b>how many times</b> something was opened.
-      To also see referrers, countries, and devices, follow the detailed-stats setup in
-      <a href="https://github.com/midasyoo/midasyoo.github.io/blob/gh-pages/ANALYTICS.md">ANALYTICS.md</a>.
-      It takes two minutes and is free.</span>
-  </p>
-  <p style="color:var(--muted);font-size:15px">
+  <p style="color:var(--muted);font-size:14.5px;margin-top:20px">
     <span class="ko">수집·비수집 항목은 <a href="privacy.html">수집 정보</a>에 적어 두었습니다.</span>
     <span class="en">What is and isn't collected is listed under <a href="privacy.html">Privacy</a>.</span>
   </p>
@@ -121,21 +151,47 @@
 <script>
 (function () {
   'use strict';
-  var SITE = 'midasyoo.github.io';
-  var COLOR = '2563c9';
+  var NS = 'midasyoo-github-io';
+  var API = 'https://abacus.jasoncameron.dev';
 
   /* 새 프로젝트를 만들면 여기에 한 줄 추가한다 */
   var PAGES = [
-    { path: '',                       ko: '홈페이지',            en: 'Homepage' },
-    { path: '/etri-3d-map',           ko: 'ETRI 본원 3D 조감도', en: 'ETRI Campus 3D Map' },
-    { path: '/etri-3d-map/mobile.html', ko: '└ 스마트폰 화면',   en: '└ mobile view',
-      href: '/etri-3d-map/mobile.html' },
-    { path: '/baseball-pitch-trainer',ko: '야구 투구 트레이너',   en: 'Baseball Pitch Trainer' },
-    { path: '/stakka3',               ko: 'STAKKA 3',            en: 'STAKKA 3' },
-    { path: '/stakka2',               ko: 'STAKKA 2',            en: 'STAKKA 2' },
-    { path: '/stakka',                ko: 'STAKKA',              en: 'STAKKA' },
-    { path: '/paper-magazine',        ko: 'paper-magazine',      en: 'paper-magazine' },
+    { key: 'home',               url: '/',                        ko: '홈페이지',            en: 'Homepage' },
+    { key: 'etri-3d-map',        url: '/etri-3d-map/',            ko: 'ETRI 본원 3D 조감도', en: 'ETRI Campus 3D Map' },
+    { key: 'etri-3d-map-mobile', url: '/etri-3d-map/mobile.html', ko: '스마트폰 화면',       en: 'mobile view', sub: true },
+    { key: 'baseball-pitch-trainer', url: '/baseball-pitch-trainer/', ko: '야구 투구 트레이너', en: 'Baseball Pitch Trainer' },
+    { key: 'stakka3',            url: '/stakka3/',                ko: 'STAKKA 3',            en: 'STAKKA 3' },
+    { key: 'stakka2',            url: '/stakka2/',                ko: 'STAKKA 2',            en: 'STAKKA 2' },
+    { key: 'stakka',             url: '/stakka/',                 ko: 'STAKKA',              en: 'STAKKA' },
+    { key: 'paper-magazine',     url: '/paper-magazine/',         ko: 'paper-magazine',      en: 'paper-magazine' },
   ];
+
+  /* 자주 나올 국가부터 확인한다. 여기에 없는 국가도 집계는 되고 있으며,
+     합계와의 차이가 "기타"로 나온다. 더 찾아보기 버튼이 나머지를 훑는다. */
+  var COMMON = 'KR US JP CN TW HK SG VN IN TH ID MY PH AU CA GB DE FR NL SE CH IT ES PL RU BR'.split(' ');
+  var REST = ('AE AR AT BD BE BG CL CO CZ DK EG FI GR HU IE IL IR KE KH KZ LA LK LT LU LV MA MX ' +
+              'NG NO NP NZ PE PK PT QA RO RS SA SK SI TR UA UZ ZA').split(' ');
+
+  var NAMES = {
+    KR:'대한민국|Korea', US:'미국|United States', JP:'일본|Japan', CN:'중국|China',
+    TW:'대만|Taiwan', HK:'홍콩|Hong Kong', SG:'싱가포르|Singapore', VN:'베트남|Vietnam',
+    IN:'인도|India', TH:'태국|Thailand', ID:'인도네시아|Indonesia', MY:'말레이시아|Malaysia',
+    PH:'필리핀|Philippines', AU:'호주|Australia', CA:'캐나다|Canada', GB:'영국|United Kingdom',
+    DE:'독일|Germany', FR:'프랑스|France', NL:'네덜란드|Netherlands', SE:'스웨덴|Sweden',
+    CH:'스위스|Switzerland', IT:'이탈리아|Italy', ES:'스페인|Spain', PL:'폴란드|Poland',
+    RU:'러시아|Russia', BR:'브라질|Brazil', AE:'아랍에미리트|UAE', AR:'아르헨티나|Argentina',
+    AT:'오스트리아|Austria', BD:'방글라데시|Bangladesh', BE:'벨기에|Belgium', BG:'불가리아|Bulgaria',
+    CL:'칠레|Chile', CO:'콜롬비아|Colombia', CZ:'체코|Czechia', DK:'덴마크|Denmark',
+    EG:'이집트|Egypt', FI:'핀란드|Finland', GR:'그리스|Greece', HU:'헝가리|Hungary',
+    IE:'아일랜드|Ireland', IL:'이스라엘|Israel', IR:'이란|Iran', KE:'케냐|Kenya',
+    KH:'캄보디아|Cambodia', KZ:'카자흐스탄|Kazakhstan', LA:'라오스|Laos', LK:'스리랑카|Sri Lanka',
+    LT:'리투아니아|Lithuania', LU:'룩셈부르크|Luxembourg', LV:'라트비아|Latvia', MA:'모로코|Morocco',
+    MX:'멕시코|Mexico', NG:'나이지리아|Nigeria', NO:'노르웨이|Norway', NP:'네팔|Nepal',
+    NZ:'뉴질랜드|New Zealand', PE:'페루|Peru', PK:'파키스탄|Pakistan', PT:'포르투갈|Portugal',
+    QA:'카타르|Qatar', RO:'루마니아|Romania', RS:'세르비아|Serbia', SA:'사우디아라비아|Saudi Arabia',
+    SK:'슬로바키아|Slovakia', SI:'슬로베니아|Slovenia', TR:'튀르키예|Türkiye', UA:'우크라이나|Ukraine',
+    UZ:'우즈베키스탄|Uzbekistan', ZA:'남아프리카공화국|South Africa'
+  };
 
   try {
     var L = localStorage.getItem('lang');
@@ -146,53 +202,150 @@
   } catch (e) {}
   document.getElementById('yr').textContent = new Date().getFullYear();
 
-  var tbody = document.getElementById('rows');
+  /* 카운터는 10초당 30건으로 제한된다(ratelimit-policy: 30;w=10).
+     동시 2건 · 900ms 간격이면 초당 2.2건이라 여유 있게 들어간다.
+     읽기(/get)는 값을 증가시키지 않으므로 몇 번을 봐도 숫자가 오염되지 않는다. */
+  var sleep = function (ms) { return new Promise(function (r) { setTimeout(r, ms); }); };
 
+  function get(k, retry) {
+    return fetch(API + '/get/' + NS + '/' + k)
+      .then(function (r) {
+        if (r.status === 429 && !retry) {              // 제한에 걸리면 한 번만 쉬었다 재시도
+          return sleep(4000).then(function () { return get(k, true); });
+        }
+        if (!r.ok) return 0;                           // 404 = 아직 방문 없음
+        return r.json().then(function (d) {
+          return d && typeof d.value === 'number' ? d.value : 0;
+        });
+      })
+      .catch(function () { return null; });            // null = 연결 실패
+  }
+
+  async function readAll(keys, onEach) {
+    var out = {};
+    for (var i = 0; i < keys.length; i += 2) {
+      var part = keys.slice(i, i + 2);
+      var vals = await Promise.all(part.map(function (k) { return get(k); }));
+      part.forEach(function (k, j) { out[k] = vals[j]; if (onEach) onEach(k, vals[j]); });
+      if (i + 2 < keys.length) await sleep(900);
+    }
+    return out;
+  }
+
+  function txt(ko, en) { return '<span class="ko">' + ko + '</span><span class="en">' + en + '</span>'; }
+  function num(v) { return v === null ? '<span class="dash">–</span>' : v.toLocaleString(); }
+
+  /* ── 페이지별 ───────────────────────────────────────────────────────── */
+  var pbody = document.getElementById('pages');
   PAGES.forEach(function (p) {
     var tr = document.createElement('tr');
-
-    var td1 = document.createElement('td');
-    var url = p.href || ((p.path || '/') + (p.path ? '/' : ''));
-    var a = document.createElement('a');
-    a.href = url;
-    a.className = 'nm';
-    a.target = '_blank'; a.rel = 'noopener';
-    a.innerHTML = '<span class="ko">' + p.ko + '</span><span class="en">' + p.en + '</span>';
-    var sp = document.createElement('span');
-    sp.className = 'pt';
-    sp.textContent = url;
-    td1.appendChild(a); td1.appendChild(sp);
-
-    var td2 = document.createElement('td');
-    td2.className = 'n';
-    td2.innerHTML = '<span class="dash">–</span>';
-    td2.dataset.key = SITE + p.path;
-
-    tr.appendChild(td1); tr.appendChild(td2);
-    tbody.appendChild(tr);
+    if (p.sub) tr.className = 'sub';
+    tr.innerHTML =
+      '<td><a class="nm" href="' + p.url + '" target="_blank" rel="noopener">' +
+        (p.sub ? '└ ' : '') + txt(p.ko, p.en) + '</a>' +
+        '<span class="pt">' + p.url + '</span>' +
+        '<div class="bar"><i></i></div></td>' +
+      '<td class="n" id="p-' + p.key + '"><span class="dash">–</span></td>';
+    pbody.appendChild(tr);
   });
 
-  document.getElementById('go').addEventListener('click', function () {
-    this.disabled = true;
-    this.innerHTML = '<span class="ko">불러오는 중…</span><span class="en">Loading…</span>';
-    var self = this;
+  (async function () {
+    var vals = await readAll(PAGES.map(function (p) { return p.key; }));
+    var max = 0, sum = 0, failed = 0;
+    PAGES.forEach(function (p) {
+      var v = vals[p.key];
+      if (v === null) failed++; else { max = Math.max(max, v); sum += v; }
+    });
+    PAGES.forEach(function (p) {
+      var v = vals[p.key];
+      document.getElementById('p-' + p.key).innerHTML = num(v);
+      var bar = pbody.querySelector('#p-' + p.key).parentNode.querySelector('.bar > i');
+      if (bar && v && max) bar.style.width = Math.max(2, v / max * 100) + '%';
+    });
+    document.getElementById('page-total').textContent =
+      failed === PAGES.length ? '' : '합계 ' + sum.toLocaleString();
+    document.getElementById('page-status').innerHTML = failed === PAGES.length
+      ? txt('집계 서버에 연결하지 못했습니다.', 'Could not reach the counter service.')
+      : '';
+    loadGeo();
+  })();
 
-    Array.prototype.forEach.call(tbody.querySelectorAll('td.n'), function (td) {
-      var img = new Image();
-      img.alt = '';
-      img.src = 'https://hits.sh/' + td.dataset.key +
-                '.svg?style=flat-square&label=%20&color=' + COLOR + '&labelColor=' + COLOR;
-      img.onload = function () { td.textContent = ''; td.appendChild(img); };
-      img.onerror = function () {
-        td.innerHTML = '<span class="dash"><span class="ko">불러오지 못함</span>' +
-                       '<span class="en">unavailable</span></span>';
-      };
+  /* ── 국가별 ─────────────────────────────────────────────────────────── */
+  var gbody = document.getElementById('geo');
+  var gstat = document.getElementById('geo-status');
+  var moreBtn = document.getElementById('more');
+  var found = {};      // cc → count
+  var geoAll = null;   // 전체 합계 (목록에 없는 국가 포함)
+
+  function renderGeo(done) {
+    var list = Object.keys(found).filter(function (c) { return found[c] > 0; })
+                 .sort(function (a, b) { return found[b] - found[a]; });
+    var shown = list.reduce(function (s, c) { return s + found[c]; }, 0);
+    var max = list.length ? found[list[0]] : 0;
+
+    gbody.innerHTML = '';
+    list.forEach(function (cc) {
+      var nm = (NAMES[cc] || (cc + '|' + cc)).split('|');
+      var tr = document.createElement('tr');
+      tr.innerHTML =
+        '<td><span class="cc">' + cc + '</span><span class="nm">' + txt(nm[0], nm[1]) + '</span>' +
+          '<div class="bar"><i style="width:' + (max ? Math.max(2, found[cc] / max * 100) : 0) + '%"></i></div></td>' +
+        '<td class="n">' + found[cc].toLocaleString() + '</td>';
+      gbody.appendChild(tr);
     });
 
-    setTimeout(function () {
-      self.innerHTML = '<span class="ko">다시 불러오기</span><span class="en">Reload</span>';
-      self.disabled = false;
-    }, 2500);
+    // 목록에 없는 국가는 합계와의 차이로 드러난다
+    if (done && geoAll !== null && geoAll > shown) {
+      var tr2 = document.createElement('tr');
+      tr2.innerHTML = '<td><span class="cc">–</span><span class="nm">' +
+        txt('그 밖의 국가', 'Other countries') + '</span></td>' +
+        '<td class="n">' + (geoAll - shown).toLocaleString() + '</td>';
+      gbody.appendChild(tr2);
+    }
+
+    // 합계는 둘 중 큰 값을 쓴다. 찾은 합이 더 크면 그쪽이 실제에 가깝다.
+    var total = Math.max(geoAll || 0, shown);
+    document.getElementById('geo-total').textContent =
+      total > 0 ? '합계 ' + total.toLocaleString() : '';
+
+    if (done && !list.length) {
+      gstat.innerHTML = geoAll === 0
+        ? txt('아직 집계된 방문이 없습니다.', 'No visits recorded yet.')
+        : txt('집계 서버에 연결하지 못했습니다.', 'Could not reach the counter service.');
+    }
+  }
+
+  async function loadGeo() {
+    // 속도 제한 탓에 한 번에 다 읽을 수 없다. 진행 상황을 보여주며 조금씩 읽는다.
+    var seen = 0;
+    var tick = function () {
+      seen++;
+      gstat.innerHTML = txt('국가 확인 중… ' + seen + '/' + COMMON.length,
+                            'Checking countries… ' + seen + '/' + COMMON.length);
+    };
+    gstat.innerHTML = txt('국가 확인 중…', 'Checking countries…');
+    geoAll = await get('geo-ALL');
+    await readAll(COMMON.map(function (c) { return 'geo-' + c; }), function (k, v) {
+      if (v) found[k.slice(4)] = v;
+      tick();
+      if (seen % 4 === 0) renderGeo(false);      // 중간 결과를 바로 보여준다
+    });
+    renderGeo(true);
+    gstat.innerHTML = '';
+    // 합계보다 찾은 합이 적으면 목록 밖 국가가 있다는 뜻 — 더 찾아볼 수 있게 한다
+    var shown = Object.keys(found).reduce(function (s, c) { return s + found[c]; }, 0);
+    if (geoAll !== null && geoAll > shown) moreBtn.hidden = false;
+  }
+
+  moreBtn.addEventListener('click', async function () {
+    this.disabled = true;
+    gstat.innerHTML = txt('나머지 국가 확인 중… (약 7초)', 'Checking remaining countries… (~7s)');
+    await readAll(REST.map(function (c) { return 'geo-' + c; }), function (k, v) {
+      if (v) found[k.slice(4)] = v;
+    });
+    renderGeo(true);
+    gstat.innerHTML = '';
+    this.hidden = true;
   });
 })();
 </script>

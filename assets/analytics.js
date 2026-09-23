@@ -5,11 +5,12 @@
  *
  *      <script src="https://midasyoo.github.io/assets/analytics.js" defer></script>
  *
- *  ── 두 단계로 되어 있다 ────────────────────────────────────────────────
+ *  ── 구조 ───────────────────────────────────────────────────────────────
  *   1) 조회 수 (기본 켜짐, 가입 불필요)
- *      hits.sh 배지로 경로별 조회 수를 센다. 설정할 것이 없다.
+ *      abacus 카운터. 페이지별 + 국가별로 센다.
+ *      읽기(/get)가 값을 증가시키지 않아 통계 페이지를 봐도 숫자가 오염되지 않는다.
  *   2) 상세 통계 (선택, 가입 필요)
- *      GoatCounter. 유입 경로·국가·기기까지 보려면 GC_CODE 를 채운다.
+ *      GoatCounter. 유입 경로·시간대·기기까지 보려면 GC_CODE 를 채운다.
  *
  *  설정과 한계는 ANALYTICS.md 참고.
  * ========================================================================== */
@@ -17,11 +18,13 @@
   'use strict';
 
   /* ── 설정 ────────────────────────────────────────────────────────────── */
-  var COUNT    = true;       // 조회 수 집계 (가입 불필요)
-  var COLOR    = '2563c9';   // 배지 색 — 밝은 화면·어두운 화면 모두에서 읽히는 색으로
-  var GC_CODE  = '';         // GoatCounter 코드. 예: 'midasyoo'  (비우면 미사용)
+  var COUNT   = true;       // 조회 수 집계
+  var GEO     = true;       // 국가 집계 (방문자 IP를 geojs.io가 국가로 변환)
+  var GC_CODE = '';         // GoatCounter 코드. 예: 'midasyoo'  (비우면 미사용)
 
-  var SITE = 'midasyoo.github.io';
+  var NS  = 'midasyoo-github-io';                       // 카운터 네임스페이스
+  var API = 'https://abacus.jasoncameron.dev';
+  var GEOAPI = 'https://get.geojs.io/v1/ip/country.json';
 
   /* ── 집계하지 않아야 할 상황 ─────────────────────────────────────────── */
   var host = location.hostname;
@@ -34,62 +37,57 @@
     /bot|crawl|spider|headless|lighthouse|preview/i.test(navigator.userAgent);
 
   /* ── 집계 키 ─────────────────────────────────────────────────────────────
-     경로를 그대로 키로 쓴다. 프로젝트별로 자동 분리된다.
-       /                    → midasyoo.github.io
-       /stakka/             → midasyoo.github.io/stakka
-       /etri-3d-map/        → midasyoo.github.io/etri-3d-map
+     경로를 키로 바꾼다. 카운터 키에는 / 를 쓸 수 없어 - 로 바꾼다.
+       /                        → home
+       /stakka/                 → stakka
+       /etri-3d-map/            → etri-3d-map
+       /etri-3d-map/mobile.html → etri-3d-map-mobile
      쿼리스트링은 뺀다. ?from=kim 같은 표시를 붙여도 같은 곳에 합산되게. */
-  function key() {
-    var p = location.pathname.replace(/index\.html$/, '').replace(/\/+$/, '');
-    return SITE + p;
+  function pageKey() {
+    var p = location.pathname
+      .replace(/index\.html$/i, '')
+      .replace(/\.html?$/i, '')
+      .replace(/^\/+|\/+$/g, '');
+    if (!p) return 'home';
+    return p.replace(/[^A-Za-z0-9._-]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 60);
   }
 
-  function badgeURL(k, labelled) {
-    var u = 'https://hits.sh/' + k + '.svg?style=flat-square&color=' + COLOR;
-    // label=%20 이면 라벨 칸 없이 숫자만 나온다. 라벨은 페이지 쪽에서 붙인다.
-    return u + (labelled ? '' : '&label=%20&labelColor=' + COLOR);
-  }
+  function hit(k)  { return fetch(API + '/hit/' + NS + '/' + k).then(function (r) { return r.json(); }); }
 
-  if (skip || !COUNT) { setupGoat(); return; }
-
-  /* ── 조회 수 ─────────────────────────────────────────────────────────────
-     hits.sh 는 CORS 헤더를 주지 않아 숫자를 읽어올 수 없다. 이미지를 불러오는
-     것 자체가 집계이므로, 화면에 보일 자리가 있으면 그 이미지를 쓰고
-     없으면 보이지 않는 이미지를 하나 넣는다. 어느 쪽이든 요청은 한 번뿐이다. */
-  function count() {
-    var k = key();
+  /* ── 화면에 숫자 표시 ───────────────────────────────────────────────── */
+  function show(n) {
     var slot = document.querySelector('[data-visits]');
-
-    if (slot) {
-      var img = new Image();
-      img.src = badgeURL(k, false);
-      img.alt = '';
-      img.setAttribute('aria-hidden', 'true');
-      img.height = 18;
-      img.style.cssText = 'height:18px;vertical-align:-4px;border-radius:4px;display:inline-block';
-      img.onload = function () {
-        var box = slot.closest('[data-visits-box]');
-        if (box) box.removeAttribute('hidden');
-      };
-      img.onerror = function () {                    // 차단·장애 시 자리를 감춘다
-        var box = slot.closest('[data-visits-box]');
-        if (box) box.setAttribute('hidden', '');
-      };
-      slot.textContent = '';
-      slot.appendChild(img);
-      return;
-    }
-
-    // 보일 자리가 없는 페이지(프로젝트 등) — 집계만 한다
-    var px = new Image();
-    px.style.cssText = 'position:absolute;width:1px;height:1px;opacity:0;pointer-events:none;left:-9999px';
-    px.alt = '';
-    px.setAttribute('aria-hidden', 'true');
-    px.src = badgeURL(k, false);
-    (document.body || document.documentElement).appendChild(px);
+    if (!slot) return;
+    slot.textContent = (typeof n === 'number' ? n : 0).toLocaleString();
+    var box = slot.closest('[data-visits-box]');
+    if (box) box.removeAttribute('hidden');
+  }
+  function hide() {
+    var slot = document.querySelector('[data-visits]');
+    var box = slot && slot.closest('[data-visits-box]');
+    if (box) box.setAttribute('hidden', '');   // 실패 시 0으로 오해하지 않게 감춘다
   }
 
-  /* ── 상세 통계 (선택) ────────────────────────────────────────────────── */
+  /* ── 실행 ────────────────────────────────────────────────────────────── */
+  function count() {
+    hit(pageKey())
+      .then(function (d) { show(d && d.value); })
+      .catch(hide);
+
+    if (!GEO) return;
+    // 국가는 방문자 IP로 판별한다. IP는 우리가 저장하지 않고, 남는 것은
+    // "그 국가에서 몇 번 열렸는가" 숫자 하나뿐이다.
+    fetch(GEOAPI)
+      .then(function (r) { return r.json(); })
+      .then(function (g) {
+        var cc = (g && g.country || '').toUpperCase();
+        if (!/^[A-Z]{2}$/.test(cc)) return;
+        hit('geo-' + cc);
+        hit('geo-ALL');        // 목록에 없는 국가까지 합한 총계 — "기타" 계산용
+      })
+      .catch(function () { /* 차단·오프라인 — 페이지 동작에는 영향 없음 */ });
+  }
+
   function setupGoat() {
     if (skip || !GC_CODE) return;
     var ep = 'https://' + GC_CODE + '.goatcounter.com';
@@ -102,7 +100,10 @@
     document.head.appendChild(s);
   }
 
-  function start() { count(); setupGoat(); }
+  function start() {
+    if (!skip && COUNT) count(); else hide();
+    setupGoat();
+  }
 
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', start);

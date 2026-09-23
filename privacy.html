@@ -88,17 +88,33 @@
         <td><span class="ko">어디를 거쳐 들어왔는지 (검색·링크·직접 입력)</span>
             <span class="en">Where the visit came from (search, a link, or direct)</span></td></tr>
     <tr><td><span class="ko">국가</span><span class="en">Country</span></td>
-        <td><span class="ko">IP로 추정한 국가 단위. IP 자체는 저장하지 않습니다</span>
-            <span class="en">Country inferred from IP. The IP itself is not stored</span></td></tr>
+        <td><span class="ko">IP로 판별한 <b>국가 코드</b>(예: KR). 지역·도시는 보지 않으며,
+              저장되는 것은 “그 국가에서 몇 번 열렸는가” 숫자 하나뿐입니다</span>
+            <span class="en">A <b>country code</b> (e.g. KR) derived from the IP. No region or city.
+              What is stored is a single number: how many times a page was opened from that country</span></td></tr>
     <tr><td><span class="ko">기기</span><span class="en">Device</span></td>
         <td><span class="ko">브라우저·운영체제 종류, 화면 크기 구간</span>
             <span class="en">Browser and OS family, screen size bucket</span></td></tr>
   </table>
   <p style="color:var(--faint);font-size:14px;margin-top:10px">
-    <span class="ko">지금 켜져 있는 것은 <b>페이지·시각</b>뿐입니다.
-      유입 경로·국가·기기는 상세 통계를 켰을 때만 해당합니다.</span>
-    <span class="en">Only <b>page and time</b> are active right now.
-      Referrer, country, and device apply only if detailed stats are enabled.</span>
+    <span class="ko">지금 켜져 있는 것은 <b>페이지·시각·국가</b>입니다.
+      유입 경로와 기기는 상세 통계를 켰을 때만 해당합니다.
+      집계 결과는 <a href="stats.html">방문 통계</a>에서 누구나 볼 수 있습니다.</span>
+    <span class="en">Active right now: <b>page, time, and country</b>.
+      Referrer and device apply only if detailed stats are enabled.
+      The results are public on the <a href="stats.html">stats page</a>.</span>
+  </p>
+
+  <h2><span class="ko">국가는 어떻게 알아내나</span><span class="en">How country is determined</span></h2>
+  <p style="color:var(--muted)">
+    <span class="ko">페이지가 열릴 때 <a href="https://www.geojs.io/" target="_blank" rel="noopener">geojs.io</a>에
+      국가 코드를 한 번 물어봅니다. 이때 접속 IP가 그 서비스에 전달되는데, 이는 어떤 웹 요청에서든
+      상대 서버가 보게 되는 정보와 같습니다. <b>받은 국가 코드만 쓰고 IP는 버리며</b>,
+      이쪽에 남는 것은 국가별 숫자뿐입니다.</span>
+    <span class="en">On page load, <a href="https://www.geojs.io/" target="_blank" rel="noopener">geojs.io</a>
+      is asked once for a country code. Your IP reaches that service in the process — the same way it
+      reaches any server you make a request to. <b>Only the country code is kept; the IP is discarded</b>,
+      and all that remains here is a per-country tally.</span>
   </p>
 
   <h2><span class="ko">수집하지 않는 것</span><span class="en">Not collected</span></h2>
@@ -126,11 +142,16 @@
     <tr><th><span class="ko">도구</span><span class="en">Tool</span></th>
         <th><span class="ko">하는 일</span><span class="en">Role</span></th></tr>
     <tr>
-      <td><a href="https://hits.sh/" target="_blank" rel="noopener">hits.sh</a></td>
-      <td><span class="ko">페이지별 조회 수만 셉니다. 쿠키·식별자를 쓰지 않고,
-            남는 것은 경로별 누적 숫자 하나뿐입니다. <a href="stats.html">방문 통계</a>에서 볼 수 있습니다</span>
-          <span class="en">Counts page views only. No cookie, no identifier — what remains is a single
-            cumulative number per path, visible on the <a href="stats.html">stats page</a></span></td>
+      <td><a href="https://jasoncameron.dev/abacus/" target="_blank" rel="noopener">abacus</a></td>
+      <td><span class="ko">페이지별·국가별 숫자를 셉니다. 쿠키·식별자를 쓰지 않으며,
+            저장되는 것은 이름표 하나에 딸린 정수 하나뿐입니다</span>
+          <span class="en">Keeps the per-page and per-country tallies. No cookie, no identifier —
+            each entry is one label and one integer</span></td>
+    </tr>
+    <tr>
+      <td><a href="https://www.geojs.io/" target="_blank" rel="noopener">geojs.io</a></td>
+      <td><span class="ko">접속 IP를 국가 코드로 바꿔 줍니다. 국가 코드만 받아 쓰고 IP는 버립니다</span>
+          <span class="en">Turns the connecting IP into a country code. Only the code is used; the IP is discarded</span></td>
     </tr>
     <tr>
       <td><a href="https://www.goatcounter.com/" target="_blank" rel="noopener">GoatCounter</a></td>
