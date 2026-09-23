@@ -94,6 +94,12 @@
         <td><span class="ko">브라우저·운영체제 종류, 화면 크기 구간</span>
             <span class="en">Browser and OS family, screen size bucket</span></td></tr>
   </table>
+  <p style="color:var(--faint);font-size:14px;margin-top:10px">
+    <span class="ko">지금 켜져 있는 것은 <b>페이지·시각</b>뿐입니다.
+      유입 경로·국가·기기는 상세 통계를 켰을 때만 해당합니다.</span>
+    <span class="en">Only <b>page and time</b> are active right now.
+      Referrer, country, and device apply only if detailed stats are enabled.</span>
+  </p>
 
   <h2><span class="ko">수집하지 않는 것</span><span class="en">Not collected</span></h2>
   <ul>
@@ -115,13 +121,25 @@
       Either way, everything on the page keeps working.</span>
   </p>
 
-  <h2><span class="ko">쓰는 도구</span><span class="en">Tool used</span></h2>
-  <p style="color:var(--muted)">
-    <span class="ko"><a href="https://www.goatcounter.com/" target="_blank" rel="noopener">GoatCounter</a> —
-      쿠키를 쓰지 않고 개인을 추적하지 않는 오픈소스 집계 도구입니다.</span>
-    <span class="en"><a href="https://www.goatcounter.com/" target="_blank" rel="noopener">GoatCounter</a> —
-      an open-source analytics tool that uses no cookies and does not track individuals.</span>
-  </p>
+  <h2><span class="ko">쓰는 도구</span><span class="en">Tools used</span></h2>
+  <table>
+    <tr><th><span class="ko">도구</span><span class="en">Tool</span></th>
+        <th><span class="ko">하는 일</span><span class="en">Role</span></th></tr>
+    <tr>
+      <td><a href="https://hits.sh/" target="_blank" rel="noopener">hits.sh</a></td>
+      <td><span class="ko">페이지별 조회 수만 셉니다. 쿠키·식별자를 쓰지 않고,
+            남는 것은 경로별 누적 숫자 하나뿐입니다. <a href="stats.html">방문 통계</a>에서 볼 수 있습니다</span>
+          <span class="en">Counts page views only. No cookie, no identifier — what remains is a single
+            cumulative number per path, visible on the <a href="stats.html">stats page</a></span></td>
+    </tr>
+    <tr>
+      <td><a href="https://www.goatcounter.com/" target="_blank" rel="noopener">GoatCounter</a></td>
+      <td><span class="ko">유입 경로·국가·기기 통계. 쿠키를 쓰지 않는 오픈소스 도구입니다.
+            <b>현재는 사용하지 않습니다</b></span>
+          <span class="en">Referrer, country, and device stats. An open-source, cookie-free tool.
+            <b>Not currently in use</b></span></td>
+    </tr>
+  </table>
 
   <p style="color:var(--muted);font-size:14.5px;margin-top:30px">
     <span class="ko">문의: <a href="mailto:midasyoo@etri.re.kr">midasyoo@etri.re.kr</a></span>

@@ -51,7 +51,8 @@ function linksInPage() {
 }
 
 /* 홈페이지 자체의 하위 페이지 */
-const OWN = ['/', '/privacy.html', '/assets/analytics.js', '/assets/avatar.svg'];
+const OWN = ['/', '/stats.html', '/privacy.html',
+             '/assets/analytics.js', '/assets/avatar.svg'];
 
 (async () => {
   const targets = new Set(OWN.map(p => ROOT + p));

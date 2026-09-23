@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="ko" data-lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>방문 통계 · Yoon-Sik Yoo</title>
+<meta name="description" content="midasyoo.github.io와 그 아래 프로젝트 페이지의 조회 수.">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<meta name="robots" content="noindex">
+<style>
+  :root {
+    --bg:#fbfcfd; --bg-soft:#f2f5f8; --card:#fff; --line:#e2e8f0; --line-soft:#eef2f6;
+    --text:#1a2433; --muted:#5c6b7f; --faint:#8695a8; --accent:#2563c9; --accent-sf:#eaf1fd;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg:#0d1117; --bg-soft:#131a23; --card:#161d27; --line:#26303d; --line-soft:#1d2530;
+      --text:#e4ebf3; --muted:#96a5b8; --faint:#6e7d91; --accent:#6ea8fe; --accent-sf:#16263f;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--bg); color: var(--text);
+    font-family: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont,
+                 "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", system-ui, sans-serif;
+    line-height: 1.7; font-size: 16px; letter-spacing: -.005em;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap { max-width: 800px; margin: 0 auto; padding: 0 24px; }
+  a { color: var(--accent); }
+  h1 { font-size: 27px; font-weight: 740; letter-spacing: -.02em; margin: 0 0 8px; }
+  h2 { font-size: 17px; font-weight: 680; margin: 36px 0 12px; }
+  .lede { color: var(--muted); margin: 0; }
+  header { border-bottom: 1px solid var(--line-soft); padding: 14px 0; }
+  header a { font-weight: 640; font-size: 15px; text-decoration: none; color: var(--text); }
+  main { padding: 42px 0 70px; }
+
+  .box {
+    background: var(--card); border: 1px solid var(--line); border-left: 3px solid var(--accent);
+    border-radius: 0 10px 10px 0; padding: 15px 18px; color: var(--muted);
+    font-size: 14.8px; margin: 24px 0;
+  }
+  .box strong { color: var(--text); }
+
+  button.load {
+    background: var(--accent); color: #fff; border: 0; border-radius: 9px;
+    padding: 11px 22px; font: inherit; font-size: 15px; font-weight: 640; cursor: pointer;
+  }
+  button.load:hover { filter: brightness(1.08); }
+  button.load[disabled] { opacity: .5; cursor: default; filter: none; }
+
+  table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+  th, td { text-align: left; padding: 12px 10px; border-bottom: 1px solid var(--line-soft); }
+  th { color: var(--faint); font-size: 12.5px; font-weight: 650; }
+  td.n { text-align: right; width: 1%; white-space: nowrap; }
+  td.n img { height: 20px; vertical-align: middle; border-radius: 4px; }
+  .dash { color: var(--faint); }
+  .nm { font-weight: 580; }
+  .pt { display: block; font-size: 12.5px; color: var(--faint); font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+
+  footer { border-top: 1px solid var(--line-soft); padding: 22px 0 40px; color: var(--faint); font-size: 13.5px; }
+  :root[data-lang="ko"] .en { display: none; }
+  :root[data-lang="en"] .ko { display: none; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap"><a href="/">← <span class="ko">홈으로</span><span class="en">Home</span></a></div>
+</header>
+
+<main class="wrap">
+  <h1><span class="ko">방문 통계</span><span class="en">Visit counts</span></h1>
+  <p class="lede">
+    <span class="ko">홈페이지와 그 아래 프로젝트 페이지의 누적 조회 수입니다.</span>
+    <span class="en">Cumulative view counts for this site and its project pages.</span>
+  </p>
+
+  <div class="box">
+    <span class="ko"><strong>이 페이지를 열면 각 항목의 숫자가 1씩 올라갑니다.</strong>
+      쓰는 집계 도구가 숫자를 읽어오는 방법을 따로 제공하지 않아, 배지를 불러오는 것이
+      곧 집계이기 때문입니다. 그래서 자동으로 불러오지 않고 아래 버튼을 눌렀을 때만 가져옵니다.</span>
+    <span class="en"><strong>Opening this page adds 1 to every count below.</strong>
+      The counter service has no read-only endpoint — fetching the badge <em>is</em> the count.
+      So nothing loads automatically; the numbers are fetched only when you press the button.</span>
+  </div>
+
+  <p><button class="load" id="go" type="button">
+    <span class="ko">숫자 불러오기</span><span class="en">Load counts</span>
+  </button></p>
+
+  <table>
+    <thead>
+      <tr>
+        <th><span class="ko">페이지</span><span class="en">Page</span></th>
+        <th class="n"><span class="ko">조회</span><span class="en">Views</span></th>
+      </tr>
+    </thead>
+    <tbody id="rows"></tbody>
+  </table>
+
+  <h2><span class="ko">더 자세히 보려면</span><span class="en">For more detail</span></h2>
+  <p style="color:var(--muted);font-size:15px">
+    <span class="ko">여기서는 <b>몇 번 열렸는지</b>만 알 수 있습니다.
+      어디를 거쳐 들어왔는지, 어느 나라에서 왔는지, 어떤 기기로 봤는지까지 보려면
+      <a href="https://github.com/midasyoo/midasyoo.github.io/blob/gh-pages/ANALYTICS.md">ANALYTICS.md</a>의
+      상세 통계 설정을 따라 하시면 됩니다. 2분이면 되고 무료입니다.</span>
+    <span class="en">This page only shows <b>how many times</b> something was opened.
+      To also see referrers, countries, and devices, follow the detailed-stats setup in
+      <a href="https://github.com/midasyoo/midasyoo.github.io/blob/gh-pages/ANALYTICS.md">ANALYTICS.md</a>.
+      It takes two minutes and is free.</span>
+  </p>
+  <p style="color:var(--muted);font-size:15px">
+    <span class="ko">수집·비수집 항목은 <a href="privacy.html">수집 정보</a>에 적어 두었습니다.</span>
+    <span class="en">What is and isn't collected is listed under <a href="privacy.html">Privacy</a>.</span>
+  </p>
+</main>
+
+<footer class="wrap">© <span id="yr">2026</span> Yoon-Sik Yoo</footer>
+
+<script>
+(function () {
+  'use strict';
+  var SITE = 'midasyoo.github.io';
+  var COLOR = '2563c9';
+
+  /* 새 프로젝트를 만들면 여기에 한 줄 추가한다 */
+  var PAGES = [
+    { path: '',                       ko: '홈페이지',            en: 'Homepage' },
+    { path: '/etri-3d-map',           ko: 'ETRI 본원 3D 조감도', en: 'ETRI Campus 3D Map' },
+    { path: '/baseball-pitch-trainer',ko: '야구 투구 트레이너',   en: 'Baseball Pitch Trainer' },
+    { path: '/stakka3',               ko: 'STAKKA 3',            en: 'STAKKA 3' },
+    { path: '/stakka2',               ko: 'STAKKA 2',            en: 'STAKKA 2' },
+    { path: '/stakka',                ko: 'STAKKA',              en: 'STAKKA' },
+    { path: '/paper-magazine',        ko: 'paper-magazine',      en: 'paper-magazine' },
+  ];
+
+  try {
+    var L = localStorage.getItem('lang');
+    if (L === 'ko' || L === 'en') {
+      document.documentElement.setAttribute('data-lang', L);
+      document.documentElement.setAttribute('lang', L);
+    }
+  } catch (e) {}
+  document.getElementById('yr').textContent = new Date().getFullYear();
+
+  var tbody = document.getElementById('rows');
+
+  PAGES.forEach(function (p) {
+    var tr = document.createElement('tr');
+
+    var td1 = document.createElement('td');
+    var a = document.createElement('a');
+    a.href = (p.path || '/') + (p.path ? '/' : '');
+    a.className = 'nm';
+    a.target = '_blank'; a.rel = 'noopener';
+    a.innerHTML = '<span class="ko">' + p.ko + '</span><span class="en">' + p.en + '</span>';
+    var sp = document.createElement('span');
+    sp.className = 'pt';
+    sp.textContent = (p.path || '/') + (p.path ? '/' : '');
+    td1.appendChild(a); td1.appendChild(sp);
+
+    var td2 = document.createElement('td');
+    td2.className = 'n';
+    td2.innerHTML = '<span class="dash">–</span>';
+    td2.dataset.key = SITE + p.path;
+
+    tr.appendChild(td1); tr.appendChild(td2);
+    tbody.appendChild(tr);
+  });
+
+  document.getElementById('go').addEventListener('click', function () {
+    this.disabled = true;
+    this.innerHTML = '<span class="ko">불러오는 중…</span><span class="en">Loading…</span>';
+    var self = this;
+
+    Array.prototype.forEach.call(tbody.querySelectorAll('td.n'), function (td) {
+      var img = new Image();
+      img.alt = '';
+      img.src = 'https://hits.sh/' + td.dataset.key +
+                '.svg?style=flat-square&label=%20&color=' + COLOR + '&labelColor=' + COLOR;
+      img.onload = function () { td.textContent = ''; td.appendChild(img); };
+      img.onerror = function () {
+        td.innerHTML = '<span class="dash"><span class="ko">불러오지 못함</span>' +
+                       '<span class="en">unavailable</span></span>';
+      };
+    });
+
+    setTimeout(function () {
+      self.innerHTML = '<span class="ko">다시 불러오기</span><span class="en">Reload</span>';
+      self.disabled = false;
+    }, 2500);
+  });
+})();
+</script>
+
+</body>
+</html>

@@ -8,6 +8,7 @@
 
 ```
 index.html          전체 페이지 (스타일·스크립트 인라인)
+stats.html          전 프로젝트 조회 수
 privacy.html        수집 정보 안내
 404.html            없는 주소로 들어왔을 때
 assets/
@@ -105,8 +106,10 @@ git push origin gh-pages:master
 
 ## 방문 통계
 
-기본은 꺼져 있다. 켜는 방법은 [ANALYTICS.md](ANALYTICS.md) 참고.
-`assets/analytics.js` 의 `CODE` 한 줄만 채우면 홈페이지와 프로젝트 페이지 전부에 적용된다.
+조회 수 집계는 **이미 켜져 있다**(hits.sh, 가입 불필요). [stats.html](stats.html)에서 본다.
+
+유입 경로·국가·기기까지 보려면 `assets/analytics.js` 의 `GC_CODE` 한 줄을 채운다.
+자세한 절차와 한계는 [ANALYTICS.md](ANALYTICS.md) 참고.
 
 ## 확인 사항
 
