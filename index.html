@@ -180,6 +180,10 @@ section { padding: 52px 0; border-top: 1px solid var(--line-soft); }
 }
 .card:hover { border-color: var(--accent); transform: translateY(-2px); box-shadow: var(--shadow); }
 .card.feature { grid-column: 1 / -1; }
+.card .vid { margin: 16px 0 0; border-radius: 10px; overflow: hidden;
+  border: 1px solid var(--line); background: #0a0e18; line-height: 0; }
+.card .vid video { display: block; width: 100%; aspect-ratio: 16 / 9; }
+.card .vidcap { margin-top: 7px; font-size: 12.5px; color: var(--faint); }
 @media (min-width: 860px) {
   .card.feature { display: grid; grid-template-columns: 1.15fr .85fr; gap: 30px; align-items: center; }
 }
@@ -424,10 +428,21 @@ footer {
             <span class="en">Fourteen pitch types broken down in 3D — grip, release point, spin, delivery, and
               trajectory. The goal is to let a kid <em>see</em> why a ball breaks instead of reading about it.</span>
           </p>
+          <div class="vid">
+            <video controls preload="none" playsinline
+                   poster="assets/baseball-pitch-trainer-poster.jpg"
+                   src="baseball-pitch-trainer/baseball-pitch-trainer-1min-narrated.mp4"></video>
+          </div>
+          <div class="vidcap">
+            <span class="ko">1분 소개 영상 — 원리 이해와 실제 연습, 내레이션 포함</span>
+            <span class="en">1-minute overview — principles and practice, narrated in Korean</span>
+          </div>
           <div class="tags"><span class="tag">3D</span><span class="tag">Physics</span><span class="tag">Education</span></div>
           <div class="acts">
             <a class="primary" href="https://midasyoo.github.io/baseball-pitch-trainer/" target="_blank" rel="noopener">
               <span class="ko">열어보기</span><span class="en">Open</span></a>
+            <a class="ghost" href="baseball-pitch-trainer/baseball-pitch-trainer-1min-narrated.mp4" target="_blank" rel="noopener">
+              <span class="ko">영상</span><span class="en">Video</span></a>
             <a class="ghost" href="https://github.com/midasyoo/baseball-pitch-trainer" target="_blank" rel="noopener">
               <span class="ko">소스</span><span class="en">Source</span></a>
           </div>
